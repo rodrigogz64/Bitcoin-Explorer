@@ -1,0 +1,127 @@
+.floating-menu {
+  width: 50px;
+  height: 50px;
+  border-radius: 50%;
+  background: #cfd5dd;
+  position: fixed;
+  bottom: 35px;
+  right: 35px;
+  z-index: 1;
+  box-shadow: 0px 4px 8px rgba(0, 0, 0, 0.1);
+  animation: float 3s infinite alternate ease-in-out;
+}
+
+@keyframes float {
+  0% {
+    transform: translateY(0);
+    box-shadow: 0px 4px 8px rgba(0, 0, 0, 0.1);
+  }
+  100% {
+    transform: translateY(-10px);
+    box-shadow: 0px 8px 16px rgba(0, 0, 0, 0.2);
+  }
+}
+
+.floating-menu input {
+  position: absolute;
+  width: 50px;
+  height: 50px;
+  margin: 0;
+  opacity: 0;
+  cursor: pointer;
+}
+
+.floating-nav {
+  z-index: 0; /* Ajustamos el z-index para que las imágenes estén detrás del menú */
+}
+
+.floating-menu input:checked ~ .plus-icon {
+  transform: rotate(135deg);
+}
+
+.floating-menu input:checked ~ .floating-nav li:nth-child(1) {
+  transform: translateY(-48px); /* Corregimos el typo en translateY */
+}
+
+.floating-menu input:checked ~ .floating-nav li:nth-child(2) {
+  transform: translateY(-88px); /* Corregimos el typo en translateY */
+}
+
+.floating-menu input:checked ~ .floating-nav li:nth-child(3) {
+  transform: translateY(-128px); /* Corregimos el typo en translateY */
+}
+
+.floating-menu input:checked ~ .floating-nav li:nth-child(4) {
+  transform: translateY(-168px); /* Corregimos el typo en translateY */
+}
+
+.floating-menu input ~ .plus-icon {
+  transform: rotate(0);
+}
+
+.floating-menu > .plus-icon {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  width: 50px;
+  height: 50px;
+  font-size: 24px;
+  line-height: 1;
+  color: #ffffff;
+  background: #cfd5dd;
+  border-radius: 50%;
+  transform: rotate(0);
+  transition: all 0.5s ease;
+  pointer-events: none;
+  position: absolute;
+  box-shadow: 1px 1px 3px 1px rgba(0, 0, 0, 0.2);
+}
+
+.floating-menu > .floating-nav {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  padding: 0;
+  margin: 0;
+  position: absolute;
+  left: 50%;
+  top: 50%;
+  transform: translate(-50%, -50%);
+  z-index: -1;
+}
+
+.floating-menu > .floating-nav li {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  width: 75px;
+  height: 75px;
+  border-radius: 50%;
+  cursor: pointer;
+  position: absolute;
+  transition: all 0.5s ease;
+}
+
+.floating-menu > .floating-nav li span {
+  font-size: 14px;
+  line-height: 1;
+  color: #ffffff;
+}
+
+.floating-nav li {
+  margin: 10px;
+  position: absolute;
+}
+
+.floating-nav img {
+  width: 35px;
+  height: 35px;
+  margin: 10px;
+  border-radius: 50%;
+  z-index: -1;
+}
+
+.imgb {
+  width: 40px;
+  height: 40px;
+}

@@ -1,0 +1,69 @@
+@import url('https://fonts.googleapis.com/css2?family=Source+Sans+3&display=swap');
+
+.transaction-details {
+    padding: 20px;
+    overflow-x: auto;
+    background-color: #0e0f12;
+
+}
+
+.transaction-details h2 {
+    font-size: 24px;
+    font-family: 'Source Sans 3', sans-serif;
+    color: #526D82;
+    font-weight: bold;
+    text-transform: uppercase;
+    margin-bottom: 20px;
+}
+
+table {
+    border-collapse: collapse;
+    width: 100%;
+    max-width: auto;
+    background: #3c4358;
+    border-radius: 10px;
+}
+
+th,
+td {
+    padding: 12px;
+    font-size: 14px;
+    text-align: left;
+    color: white;
+    font-family: 'Source Sans 3', sans-serif;
+}
+
+thead th {
+    font-weight: bold;
+    border-bottom: 2px solid #ccc;
+}
+
+tbody tr {
+    border-bottom: 1px solid #ccc;
+}
+
+tbody tr:last-child {
+    border-bottom: none;
+}
+
+td {
+    position: relative;
+}
+
+td::after {
+    content: '';
+    position: absolute;
+    bottom: 0;
+    left: 0;
+    width: 100%;
+    height: 2px;
+    background-color: #ff9800;
+    visibility: hidden;
+    transform: scaleX(0);
+    transition: transform 0.3s ease-in-out;
+}
+
+td:hover::after {
+    visibility: visible;
+    transform: scaleX(1);
+}
