@@ -1,14 +1,13 @@
-import { useState, useEffect   } from 'react';
-import Menu from '../components/Menu';
-import Navbar from '../components/Navbar';
-import TxDetails from '../components/TxDetails';
-import SplashScreen from '../components/SplashScreen';
-import { decodeTransaction } from '../views/Decoder';
-
+import { useState, useEffect } from "react";
+import Menu from "../components/Menu";
+import Navbar from "../components/Navbar";
+import TxDetails from "../components/TxDetails";
+import SplashScreen from "../components/SplashScreen";
+import { decodeTransaction } from "../views/Decoder";
 
 const Mainnet = () => {
-  const [txId, setTxId] = useState('');
-  const [decodedTransaction, setDecodedTransaction] = useState('');
+  const [txId, setTxId] = useState("");
+  const [decodedTransaction, setDecodedTransaction] = useState({});
   const [showNavbar, setShowNavbar] = useState<boolean>(false);
 
   const handleInputChange = (event: React.ChangeEvent<HTMLInputElement>) => {
@@ -16,7 +15,7 @@ const Mainnet = () => {
   };
 
   const handleDecodeTransaction = () => {
-    decodeTransaction('api', txId, setDecodedTransaction);//network, ...
+    decodeTransaction("api", txId, setDecodedTransaction); //network, ...
   };
 
   useEffect(() => {
@@ -36,8 +35,8 @@ const Mainnet = () => {
             handleDecodeTransaction={handleDecodeTransaction}
           />
           <main>
-            <TxDetails decodedTransaction={decodedTransaction} />
-            <Menu/>
+          {txId.trim() !== '' ? ( <TxDetails decodedTransaction={decodedTransaction} />) : (null)}
+            <Menu />
           </main>
         </>
       ) : (

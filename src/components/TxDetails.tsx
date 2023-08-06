@@ -8,12 +8,13 @@ interface TxDetailsProps {
   decodedTransaction: DecodedTransaction;
 }
 
+
+
 const TxDetails: React.FC<TxDetailsProps> = ({ decodedTransaction }) => {
-  if (!decodedTransaction) return null;
 
   return (
     <div className="transaction-details">
-      <h2>Transaction Details:</h2>
+      <h2>Detalles de la transacción:</h2>
       <table>
         <thead>
           <tr>

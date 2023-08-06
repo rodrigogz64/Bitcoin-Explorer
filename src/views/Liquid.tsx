@@ -6,7 +6,7 @@ import { decodeTransaction } from "../views/Decoder";
 
 const Testnet = () => {
   const [txId, setTxId] = useState("");
-  const [decodedTransaction, setDecodedTransaction] = useState(null);
+  const [decodedTransaction, setDecodedTransaction] = useState({});
 
   const handleInputChange = (event: React.ChangeEvent<HTMLInputElement>) => {
     setTxId(event.target.value);
@@ -25,7 +25,7 @@ const Testnet = () => {
           handleDecodeTransaction={handleDecodeTransaction}
         />
         <main>
-          <TxDetails decodedTransaction={decodedTransaction} />
+          {txId.trim() !== "" ? (<TxDetails decodedTransaction={decodedTransaction} />) : null}
           <Menu />
         </main>
       </>

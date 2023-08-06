@@ -1,4 +1,5 @@
 import axios from "axios";
+import { SetStateAction, Dispatch } from "react";
 
 function isBlockHash(input: string): boolean {
   return /^0{8}[0-9a-fA-F]{56}$/.test(input);
@@ -12,7 +13,7 @@ function isValidBitcoinAddress(input: string): boolean{
   return (
     /^[13][a-km-zA-HJ-NP-Z1-9]{25,34}$/.test(input) ||
     /^3[a-km-zA-HJ-NP-Z1-9]{25,34}$/.test(input) ||
-    /^(bc1)[a-zA-HJ-NP-Z0-9]{25,39}$/.test(input)
+    /^(bc1)[a-zA-HJ-NP-Z0-9]{25,62}$/.test(input)
   );
 }
 
@@ -25,6 +26,7 @@ function isValidTestetAddress(input: string): boolean{
   );
 
 }
+
 
 function mainnet(txId: string, network:string):string{
   if(network == 'api'){
@@ -51,13 +53,18 @@ const identifyData = (txId: string, network: string): string => {
     mainnet(txId, network) ||
     testnet(txId, network) 
   );
-
 };
+
+
+interface inputData {
+  prop1: string;
+  prop2: number;
+}
 
 export const decodeTransaction = (
   network: string,
   txId: string,
-  setDecodedTransaction: any
+  setDecodedTransaction: Dispatch<SetStateAction<inputData>>
 ) => {
   const blockstreamURL = `https://blockstream.info/${network}/${identifyData(txId, network)}/${txId}`;
 
