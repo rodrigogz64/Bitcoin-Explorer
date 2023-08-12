@@ -2,7 +2,7 @@
   width: 50px;
   height: 50px;
   border-radius: 50%;
-  background: #cfd5dd;
+  background: #cfd5dd09;
   position: fixed;
   bottom: 35px;
   right: 35px;
@@ -32,46 +32,35 @@
 }
 
 .floating-nav {
-  z-index: 0; /* Ajustamos el z-index para que las imágenes estén detrás del menú */
+  z-index: 0; 
 }
 
-.floating-menu input:checked ~ .plus-icon {
-  transform: rotate(135deg);
-}
 
 .floating-menu input:checked ~ .floating-nav li:nth-child(1) {
-  transform: translateY(-48px); /* Corregimos el typo en translateY */
+  transform: translateY(-48px); 
 }
 
 .floating-menu input:checked ~ .floating-nav li:nth-child(2) {
-  transform: translateY(-88px); /* Corregimos el typo en translateY */
+  transform: translateY(-88px); 
 }
 
 .floating-menu input:checked ~ .floating-nav li:nth-child(3) {
-  transform: translateY(-128px); /* Corregimos el typo en translateY */
+  transform: translateY(-128px); 
 }
 
 .floating-menu input:checked ~ .floating-nav li:nth-child(4) {
-  transform: translateY(-168px); /* Corregimos el typo en translateY */
+  transform: translateY(-168px); 
 }
 
-.floating-menu input ~ .plus-icon {
-  transform: rotate(0);
-}
 
-.floating-menu > .plus-icon {
+.floating-menu > .circle {
   display: flex;
-  justify-content: center;
-  align-items: center;
   width: 50px;
   height: 50px;
-  font-size: 24px;
   line-height: 1;
   color: #ffffff;
   background: #cfd5dd;
   border-radius: 50%;
-  transform: rotate(0);
-  transition: all 0.5s ease;
   pointer-events: none;
   position: absolute;
   box-shadow: 1px 1px 3px 1px rgba(0, 0, 0, 0.2);
@@ -117,11 +106,52 @@
   width: 35px;
   height: 35px;
   margin: 10px;
-  border-radius: 50%;
   z-index: -1;
 }
 
-.imgb {
-  width: 40px;
-  height: 40px;
+.circle {
+  width: 50px;
+  height: 50px;
+  border-radius: 50%;
+  overflow: hidden;
+}
+
+.wave {
+ 
+  width: 100%;
+  height: 100%;
+  background: #4973ff;
+  border-radius: 50%;
+}
+
+.wave:before,
+.wave:after {
+  content: '';
+  position: absolute;
+  width: 200%;
+  height: 200%;
+  top: 0;
+  left: 50%;
+  transform: translate(-50%, -75%);
+}
+
+.wave:before {
+  border-radius: 45%;
+  background: rgba(255, 255, 255, 1);
+  animation: animate 5s linear infinite;
+}
+
+.wave:after {
+  border-radius: 40%;
+  background: rgba(255, 255, 255, 0.5);
+  animation: animate 10s linear infinite;
+}
+
+@keyframes animate {
+  0% {
+    transform: translate(-50%, -75%) rotate(0deg);
+  }
+  100% {
+    transform: translate(-50%, -75%) rotate(360deg);
+  }
 }

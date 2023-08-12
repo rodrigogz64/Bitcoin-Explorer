@@ -1,36 +1,64 @@
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import Menu from "../components/Menu";
 import Navbar from "../components/Navbar";
+import { decodeTransaction, identifyData } from "../views/Decoder";
+import Detalles from "./detalles";
 import TxDetails from "../components/TxDetails";
-import { decodeTransaction } from "../views/Decoder";
+import white from "../assets/bitcoin-white.svg";
 
-const Testnet = () => {
+export default function Testnet(){
   const [txId, setTxId] = useState("");
-  const [decodedTransaction, setDecodedTransaction] = useState({});null
+  const [decodedTransaction, setDecodedTransaction] = useState(null);
+  const [componenteSeleccionado, setComponenteSeleccionado] = useState(null);
 
-  const handleInputChange = (event: React.ChangeEvent<HTMLInputElement>) => {
+  const handleInputChange = (event) => {
     setTxId(event.target.value);
   };
 
   const handleDecodeTransaction = () => {
-    decodeTransaction("testnet/api", txId, setDecodedTransaction); //network ,...
+    if (!txId.trim()) {
+      alert("Please enter a valid transaction ID.");
+      return;
+    }
+
+    decodeTransaction("testnet/api", txId, setDecodedTransaction);
+    setTxId("");
+  };
+
+  const variable = identifyData(txId, "testnet/api");
+
+  const handleButtonClick = () => {
+    if (variable === "tx" || variable === "block") {
+      setComponenteSeleccionado(variable);
+    } else {
+      setComponenteSeleccionado(null);
+    }
+  };
+
+  const renderComponente = () => {
+    if (!decodedTransaction) {
+      return null;
+    } else if (componenteSeleccionado === "tx") {
+      return <TxDetails decodedTransaction={decodedTransaction} />;
+    } else if (componenteSeleccionado === "block") {
+      return <Detalles decodedTransaction={decodedTransaction} />;
+    } else {
+      return <div>Ingresa un componente válido</div>;
+    }
   };
 
   return (
     <>
-      <>
-        <Navbar
-          txId={txId}
-          handleInputChange={handleInputChange}
-          handleDecodeTransaction={handleDecodeTransaction}
-        />
-        <main>
-          {txId.trim() !== "" ? (<TxDetails decodedTransaction={decodedTransaction} />) : null}
-          <Menu />
-        </main>
-      </>
+      <Navbar
+        txId={txId}
+        handleInputChange={handleInputChange}
+        handleDecodeTransaction={handleDecodeTransaction}
+        onButtonClick={handleButtonClick}
+        image={white}
+        network="Testnet"
+      />
+      <Menu />
+      <div>{renderComponente()}</div>
     </>
   );
 };
-
-export default Testnet;

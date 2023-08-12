@@ -1,39 +1,109 @@
+import axios from "axios";
+import { useState, useEffect } from "react";
 import './TxDetails.css';
+import img from "../assets/bitcoin-btc-flat-icon-isolated-on-white-background-vector-removebg-preview.png";
+import clipboard from '../assets/clipboard.png';
 
-interface DecodedTransaction {
-  [key: string]: string | number;
+export interface Props {
+  decodedTransaction: {
+    txid: string;
+    vin: { prevout: { scriptpubkey_address: string; value: number } }[];
+    vout: { scriptpubkey_address: string; value: number }[];
+    status: { block_time: number; block_height: number };
+    fee: number;
+    weight: number;
+  };
 }
 
-interface TxDetailsProps {
-  decodedTransaction: DecodedTransaction;
-}
+export default function TxDetails({ decodedTransaction }: Props) {
+  const [lastBlockHeight, setLastBlockHeight] = useState(0);
+  const [copied, setCopied] = useState(false); 
 
+  useEffect(() => {
+    async function fetchLastBlockHeight() {
+      try {
+        const response = await axios.get("https://blockstream.info/api/blocks");
+        setLastBlockHeight(response.data[0].height);
+      } catch (error) {
+        console.error(error);
+      }
+    }
 
+    fetchLastBlockHeight();
+  }, []);
 
-const TxDetails: React.FC<TxDetailsProps> = ({ decodedTransaction }) => {
+  let confirmationMessage = "Unconfirmed";
+
+  if (decodedTransaction && decodedTransaction.status.block_height) {
+    const confirmationCount = (lastBlockHeight - decodedTransaction.status.block_height) + 1;
+    if (confirmationCount > 0) {
+      confirmationMessage = `${confirmationCount} Confirmations`;
+    }
+  }
+
+  const voutDetails = decodedTransaction.vout.map((vout) => ({
+    scriptpubkey_address: vout.scriptpubkey_address,
+    value: vout.value / 100000000,
+  }));
+
+  const copyTextToClipboard = (text: string) => {
+    navigator.clipboard.writeText(text)
+      .then(() => {
+        setCopied(true);
+        setTimeout(() => {setCopied(false); }, 2000);
+      })
+      .catch(err => { console.error(err); });
+  };
 
   return (
-    <div className="transaction-details">
-      <h2>Detalles de la transacción:</h2>
-      <table>
-        <thead>
-          <tr>
-            <th>Field</th>
-            <th>Value</th>
-          </tr>
-        </thead>
-        <tbody>
-          {Object.entries(decodedTransaction).map(([key, value]) => (
-            <tr key={key}>
-              <td>{key}</td>
-              <td style={{ wordBreak: 'break-word' }}>
-                {typeof value === 'object' ? JSON.stringify(value) : String(value)}</td>
-            </tr>
+    <div className="container">
+      <div className="title">
+        <img src={img} alt="" style={{ width: "80px" }} />
+        <h2>Transaction</h2>
+      </div>
+      <div className="subtitle">
+        <h4>{decodedTransaction.txid}</h4>
+        <div className={`button-container ${copied ? "show-tooltip" : ""}`}>
+          <button onClick={() => copyTextToClipboard(decodedTransaction.txid)}>
+            <img className="img-clip" src={clipboard} alt="" />
+          </button>
+          {copied && <span className="copy-label">Copied!</span>}
+        </div>
+      </div>
+
+      <div className="table">
+        <div>
+          <div>Status</div>
+          <div> {confirmationMessage} </div>
+        </div>
+        <div>
+          <div>Timestamp</div>
+          <div>
+            {new Date(decodedTransaction.status.block_time * 1000).toLocaleString("es-SV")}
+          </div>
+        </div>
+        <div>
+          <div>Transaction fees</div>
+          <div>
+            {decodedTransaction.fee.toLocaleString()} Sats 
+            ({(decodedTransaction.fee/(decodedTransaction.weight / 4)).toFixed(1)} sat/vB)
+          </div>
+        </div>
+      </div>
+      <div className="table2">
+        <div className="Inputs">
+          <div className="address">{decodedTransaction.vin[0]?.prevout.scriptpubkey_address}</div>
+          <div className="value">{decodedTransaction.vin[0]?.prevout.value / 100000000} BTC</div>
+        </div>
+        <span> {">"} </span>
+        <div className="Outputs">
+          {voutDetails.map((detail, index) => (
+            <div className="address" key={index}> {detail.scriptpubkey_address}
+              <div className="value">{detail.value} BTC </div>
+            </div>
           ))}
-        </tbody>
-      </table>
+        </div>
+      </div>
     </div>
   );
-};
-
-export default TxDetails;
+}

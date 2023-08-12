@@ -27,6 +27,17 @@ function isValidTestetAddress(input: string): boolean{
 
 }
 
+function isValidLiquidBlockHash(input: string): boolean {
+  return /^[0-9a-fA-F]{64}$/.test(input);
+}
+
+/* function isValidLiquidTxHash(input: string): boolean {
+  return /^[0-9a-fA-F]{64}$/.test(input);
+} */
+
+function cout(input: string){
+  if (input.length === 64) return "tx" || "block";
+}
 
 function mainnet(txId: string, network:string):string{
   if(network == 'api'){
@@ -48,23 +59,26 @@ function testnet(txId: string, network:string):string{
   return "";
 }
 
-const identifyData = (txId: string, network: string): string => {
+function liquid(txId: string, network:string):string{
+  if(network == 'liquid/api'){
+    if(isValidLiquidBlockHash(txId) == true) return "tx"
+    cout(txId);
+    if (isBlock(txId)) return "blocks";
+  } return "";
+}
+
+export const identifyData = (txId: string, network: string): string => {
   return (
     mainnet(txId, network) ||
-    testnet(txId, network) 
+    testnet(txId, network) ||
+    liquid(txId, network)
   );
 };
-
-
-interface inputData {
-  prop1: string;
-  prop2: number;
-}
 
 export const decodeTransaction = (
   network: string,
   txId: string,
-  setDecodedTransaction: Dispatch<SetStateAction<inputData>>
+  setDecodedTransaction: Dispatch<SetStateAction<[]>> // Updates the state with the new string value.
 ) => {
   const blockstreamURL = `https://blockstream.info/${network}/${identifyData(txId, network)}/${txId}`;
 

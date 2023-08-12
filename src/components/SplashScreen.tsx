@@ -1,4 +1,4 @@
-import img from '../assets/Splash.svg'
+import img from '../assets/Splash.png'
 import './SplashScreen.css'
 
 const SplashScreen = () => {

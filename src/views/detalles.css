@@ -1,17 +1,13 @@
-@import url('https://fonts.googleapis.com/css2?family=Source+Sans+3&display=swap');
-
 .container {
   color: #fff;
   display: flex;
   flex-direction: column;
   align-items: center;
   margin-top: 10px;
-  margin: auo;
   padding: 20px;
 }
 
 .title {
-  order: 1;
   display: flex;
   flex-direction: row;
   align-items: center;
@@ -20,8 +16,7 @@
   padding: 10px;
 }
 
-.subtitle{
-  order: 2;
+.subtitle {
   display: flex;
   flex-direction: row;
   align-items: center;
@@ -29,7 +24,7 @@
   margin: 0 40px;
 }
 
-.subtitle button{
+.subtitle button {
   margin-left: 10px;
   background-color: transparent;
   border: none;
@@ -55,7 +50,6 @@ h4 {
 }
 
 .table {
-  order: 3;
   background-color: rgba(85, 77, 116, 0.3);
   width: 50%;
   margin: 20px;
@@ -63,30 +57,11 @@ h4 {
   border-radius: 10px;
 }
 
-.copy-label {
-  position: absolute;
-  background-color: rgba(0, 0, 0, 0.8);
-  color: white;
-  padding: 5px 10px;
-  border-radius: 5px;
-  font-size: 12px;
-  opacity: 0;
-  transition: opacity 0.3s ease-in-out;
-  pointer-events: none;
-}
-
-.show-tooltip .copy-label {
-  opacity: 1;
-}
-
 .table > div {
   display: flex;
   justify-content: space-between;
   align-items: center;
   padding: 15px 0;
-}
-
-.table > div:not(:first-child) {
   border-top: 1px solid #ccc;
 }
 
@@ -106,47 +81,33 @@ h4 {
   text-align: right;
 }
 
-.table2 {
-  order: 3;
-  display: flex;
-  align-items: center;
-  justify-content: space-between;
-  padding: 20px;
-  background-color: rgba(85, 77, 116, 0.3);
-  border-radius: 8px;
-  margin: 10px;
-  flex: 1;
+.copy-label {
+  position: absolute;
+  background-color: rgba(0, 0, 0, 0.8);
+  color: white;
+  padding: 5px 10px;
+  border-radius: 5px;
   font-size: 12px;
-  width: 48.8%;
+  opacity: 0;
+  transition: opacity 0.3s ease-in-out;
+  pointer-events: none;
 }
 
-.Inputs,
-.Outputs {
-  display: flex;
-  align-items: center;
-  flex-direction: column;
+.show-tooltip .copy-label {
+  opacity: 1;
 }
 
-.Inputs > div:first-child {
-  margin-right: auto;
+.button-container {
+  position: relative;
 }
 
-.Outputs > div:first-child {
-  margin-right: auto;
+.subtitle button {
+  margin-left: 10px;
+  background-color: transparent;
+  border: none;
+  padding: 0;
+  cursor: pointer;
 }
-
-.Outputs > div {
-  margin-left: auto;
-  margin-right: auto;
-  text-align: center;
-  padding: 5px 0;
-}
-
-.span {
-  font-size: 24px;
-  margin: 0 10px;
-}
-
 @media screen and (max-width: 768px) {
   .container {
     margin-top: 10px;
@@ -187,6 +148,7 @@ h4 {
     width: 100%;
     margin-right: 80px;
   }
+
   .table,
   .table2 {
     width: 100%;

@@ -13,7 +13,7 @@ export const AppRouter = () => {
             <Route path="/Liquid" element={<Liquid/>}/>
             <Route path="/Liquidtestnet" element={<Liquidtestnet/>}/>
             
-            <Route path="/*" element={ <h1>Error!</h1> }/> {/* Si se coloca mal la ruta se puede redireccionar a otro lado */}
+            <Route path="/*" element={ <h1>404</h1> }/>
         </Routes>
     )
 }
