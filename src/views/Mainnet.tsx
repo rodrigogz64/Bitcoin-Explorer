@@ -34,11 +34,15 @@ export default function Mainnet() {
     // Identify the data type and set the componentSelected state here
     const identify = identifyData(txId, 'api');
     if (identify === 'tx' || identify === 'block' || identify === 'blocks' || identify === 'address') {
+      // eslint-disable-next-line @typescript-eslint/ban-ts-comment
+      //@ts-ignore
       setComponentSelected(identify);
     } else {
       setComponentSelected(null);
     }
 
+      // eslint-disable-next-line @typescript-eslint/ban-ts-comment
+      //@ts-ignore
     decodeTransaction("api", txId, setDecodedTransaction);
     setTxId("");
   };
