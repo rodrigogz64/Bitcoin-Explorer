@@ -2,9 +2,9 @@ import { useEffect, useState } from "react";
 import Menu from "../components/Menu";
 import Navbar from "../components/Navbar";
 import { decodeTransaction, identifyData } from "../views/Decoder";
-import Detalles from "./detalles";
 import TxDetails from "../components/TxDetails";
 import white from "../assets/bitcoin-white.svg";
+import BlockDetails from "../components/BlockDetails";
 
 export default function Testnet(){
   const [txId, setTxId] = useState("");
@@ -41,7 +41,7 @@ export default function Testnet(){
     } else if (componenteSeleccionado === "tx") {
       return <TxDetails decodedTransaction={decodedTransaction} />;
     } else if (componenteSeleccionado === "block") {
-      return <Detalles decodedTransaction={decodedTransaction} />;
+      return <BlockDetails decodedTransaction={decodedTransaction} />;
     } else {
       return <div>Ingresa un componente válido</div>;
     }

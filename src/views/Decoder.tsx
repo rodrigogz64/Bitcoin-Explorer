@@ -78,7 +78,7 @@ export const identifyData = (txId: string, network: string): string => {
 export const decodeTransaction = (
   network: string,
   txId: string,
-  setDecodedTransaction: Dispatch<SetStateAction<[]>> // Updates the state with the new string value.
+  setDecodedTransaction: Dispatch<SetStateAction<string>> // Updates the state with the new string value.
 ) => {
   const blockstreamURL = `https://blockstream.info/${network}/${identifyData(txId, network)}/${txId}`;
 

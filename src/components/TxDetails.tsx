@@ -1,8 +1,8 @@
 import axios from "axios";
 import { useState, useEffect } from "react";
-import './TxDetails.css';
+import "./Details.css";
 import img from "../assets/bitcoin-btc-flat-icon-isolated-on-white-background-vector-removebg-preview.png";
-import clipboard from '../assets/clipboard.png';
+import clipboard from "../assets/clipboard.png";
 
 export interface Props {
   decodedTransaction: {
@@ -17,7 +17,7 @@ export interface Props {
 
 export default function TxDetails({ decodedTransaction }: Props) {
   const [lastBlockHeight, setLastBlockHeight] = useState(0);
-  const [copied, setCopied] = useState(false); 
+  const [copied, setCopied] = useState(false);
 
   useEffect(() => {
     async function fetchLastBlockHeight() {
@@ -25,34 +25,43 @@ export default function TxDetails({ decodedTransaction }: Props) {
         const response = await axios.get("https://blockstream.info/api/blocks");
         setLastBlockHeight(response.data[0].height);
       } catch (error) {
-        console.error(error);
+        error;
       }
     }
-
     fetchLastBlockHeight();
   }, []);
 
   let confirmationMessage = "Unconfirmed";
 
-  if (decodedTransaction && decodedTransaction.status.block_height) {
-    const confirmationCount = (lastBlockHeight - decodedTransaction.status.block_height) + 1;
+  if (
+    decodedTransaction &&
+    decodedTransaction.status &&
+    decodedTransaction.status.block_height
+  ) {
+    const confirmationCount =
+      lastBlockHeight - decodedTransaction.status.block_height + 1;
     if (confirmationCount > 0) {
       confirmationMessage = `${confirmationCount} Confirmations`;
     }
   }
-
-  const voutDetails = decodedTransaction.vout.map((vout) => ({
-    scriptpubkey_address: vout.scriptpubkey_address,
-    value: vout.value / 100000000,
-  }));
-
+  const voutDetails = decodedTransaction.vout
+    ? decodedTransaction.vout.map((vout) => ({
+        scriptpubkey_address: vout.scriptpubkey_address,
+        value: vout.value / 100000000,
+      }))
+    : [];
   const copyTextToClipboard = (text: string) => {
-    navigator.clipboard.writeText(text)
+    navigator.clipboard
+      .writeText(text)
       .then(() => {
         setCopied(true);
-        setTimeout(() => {setCopied(false); }, 2000);
+        setTimeout(() => {
+          setCopied(false);
+        }, 2000);
       })
-      .catch(err => { console.error(err); });
+      .catch((error) => {
+        error;
+      });
   };
 
   return (
@@ -79,26 +88,39 @@ export default function TxDetails({ decodedTransaction }: Props) {
         <div>
           <div>Timestamp</div>
           <div>
-            {new Date(decodedTransaction.status.block_time * 1000).toLocaleString("es-SV")}
+            {decodedTransaction.status?.block_time !== undefined
+              ? new Date(
+                  decodedTransaction.status.block_time * 1000
+                ).toLocaleString("es-SV")
+              : "N/A"}
           </div>
         </div>
+
         <div>
           <div>Transaction fees</div>
           <div>
-            {decodedTransaction.fee.toLocaleString()} Sats 
-            ({(decodedTransaction.fee/(decodedTransaction.weight / 4)).toFixed(1)} sat/vB)
+            {decodedTransaction.fee.toLocaleString()} Sats (
+            {(decodedTransaction.fee / (decodedTransaction.weight / 4)).toFixed(
+              1
+            )}{" "}
+            sat/vB)
           </div>
         </div>
       </div>
       <div className="table2">
         <div className="Inputs">
-          <div className="address">{decodedTransaction.vin[0]?.prevout.scriptpubkey_address}</div>
-          <div className="value">{decodedTransaction.vin[0]?.prevout.value / 100000000} BTC</div>
+          <div className="address">
+            {decodedTransaction.vin[0]?.prevout.scriptpubkey_address}
+          </div>
+          <div className="value">
+            {decodedTransaction.vin[0]?.prevout.value / 100000000} BTC
+          </div>
         </div>
         <span> {">"} </span>
         <div className="Outputs">
           {voutDetails.map((detail, index) => (
-            <div className="address" key={index}> {detail.scriptpubkey_address}
+            <div className="address" key={index}>
+              {detail.scriptpubkey_address}
               <div className="value">{detail.value} BTC </div>
             </div>
           ))}
