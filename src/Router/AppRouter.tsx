@@ -1,8 +1,8 @@
 import {Routes, Route} from "react-router-dom";
 import Mainnet from "../views/Mainnet";
 import Testnet from "../views/Testnet";
-import Liquid from "../views/Liquid";
-import Liquidtestnet from "../views/Liquidtestnet";
+/* import Liquid from "../views/Liquid";
+import Liquidtestnet from "../views/Liquidtestnet"; */
 
 export const AppRouter = () => {
     return (
