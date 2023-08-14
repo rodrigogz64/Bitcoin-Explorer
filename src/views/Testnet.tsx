@@ -1,17 +1,22 @@
-import { useEffect, useState } from "react";
+import { useState } from "react";
 import Menu from "../components/Menu";
 import Navbar from "../components/Navbar";
-import { decodeTransaction, identifyData } from "../views/Decoder";
+import {decodeTransaction,identifyData,DecodedTransaction} from "../views/Decoder";
 import TxDetails from "../components/TxDetails";
 import white from "../assets/bitcoin-white.svg";
-import BlockDetails from "../components/BlockDetails";
+import BlockHashDetails from "../components/BlockDetails";
+import AddressDetails from "../components/AddressDetails";
 
-export default function Testnet(){
-  const [txId, setTxId] = useState("");
-  const [decodedTransaction, setDecodedTransaction] = useState(null);
-  const [componenteSeleccionado, setComponenteSeleccionado] = useState(null);
+interface Props {
+  decodedTransaction: DecodedTransaction;
+}
 
-  const handleInputChange = (event) => {
+export default function Mainnet() {
+  const [txId, setTxId] = useState<string>("");
+  const [decodedTransaction, setDecodedTransaction] = useState<Props["decodedTransaction"] | null>();
+  const [componentSelected, setComponentSelected] = useState<string | null>(null);
+
+  const handleInputChange = (event: React.ChangeEvent<HTMLInputElement>) => {
     setTxId(event.target.value);
   };
 
@@ -20,31 +25,29 @@ export default function Testnet(){
       alert("Please enter a valid transaction ID.");
       return;
     }
-
-    decodeTransaction("testnet/api", txId, setDecodedTransaction);
+    decodeTransaction("testnet/api", txId, setDecodedTransaction as React.Dispatch<React.SetStateAction<DecodedTransaction | null>>);
     setTxId("");
   };
 
-  const variable = identifyData(txId, "testnet/api");
+  const identify = identifyData(txId, "testnet/api");
 
-  const handleButtonClick = () => {
-    if (variable === "tx" || variable === "block") {
-      setComponenteSeleccionado(variable);
+  const handleButtonClick = async () => {
+    if ( identify === "tx" || identify === "block" || identify === "address") {
+      setComponentSelected(identify);
     } else {
-      setComponenteSeleccionado(null);
+      setComponentSelected(null);
     }
   };
 
-  const renderComponente = () => {
-    if (!decodedTransaction) {
-      return null;
-    } else if (componenteSeleccionado === "tx") {
+  const renderComponent = () => {
+    if (!decodedTransaction) return null;
+    if (componentSelected === "tx")
       return <TxDetails decodedTransaction={decodedTransaction} />;
-    } else if (componenteSeleccionado === "block") {
-      return <BlockDetails decodedTransaction={decodedTransaction} />;
-    } else {
-      return <div>Ingresa un componente válido</div>;
-    }
+    if (componentSelected === "block")
+      return <BlockHashDetails decodedTransaction={decodedTransaction} />;
+    if (componentSelected === "address")
+      return <AddressDetails decodedTransaction={decodedTransaction} />;
+    return null;
   };
 
   return (
@@ -58,7 +61,7 @@ export default function Testnet(){
         network="Testnet"
       />
       <Menu />
-      <div>{renderComponente()}</div>
+      <div>{renderComponent()}</div>
     </>
   );
-};
+}

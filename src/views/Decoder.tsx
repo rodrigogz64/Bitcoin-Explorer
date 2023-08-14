@@ -1,5 +1,4 @@
 import axios from "axios";
-import { SetStateAction, Dispatch } from "react";
 
 function isBlockHash(input: string): boolean {
   return /^0{8}[0-9a-fA-F]{56}$/.test(input);
@@ -35,19 +34,23 @@ function isValidLiquidBlockHash(input: string): boolean {
   return /^[0-9a-fA-F]{64}$/.test(input);
 } */
 
-function cout(input: string){
-  if (input.length === 64) return "tx" || "block";
+function cout(input: string): string {
+  if (input.length === 64) return "tx";
+  if (isBlock(input)) return "block";
+  return "";
 }
+
 
 function mainnet(txId: string, network:string):string{
   if(network == 'api'){
     if (isBlockHash(txId) == false && isTxid(txId) == true) return "tx";
     if (isBlockHash(txId) == true && isTxid(txId) == true) return "block";
     if (isValidBitcoinAddress(txId)) return "address";
-    if (isBlock(txId)) return "blocks";
   }
   return "";
 }
+
+
 
 function testnet(txId: string, network:string):string{
   if(network == 'testnet/api'){
@@ -75,10 +78,33 @@ export const identifyData = (txId: string, network: string): string => {
   );
 };
 
+export type DecodedTransaction =  {
+  txid: string;
+  vin: { prevout: { scriptpubkey_address: string; value: number } }[];
+  vout: { scriptpubkey_address: string; value: number }[];
+  status: { block_time: number; block_height: number };
+  fee: number;
+  weight: number;
+  id: string;
+  height: number;
+  timestamp: number;
+  tx_count: number;
+  size: number;
+  difficulty: number;
+  address: string;
+  chain_stats: {
+    funded_txo_count: number;
+    funded_txo_sum: number;
+    spent_txo_count: number;
+    spent_txo_sum: number;
+    tx_count: number;
+  };
+}
+
 export const decodeTransaction = (
   network: string,
   txId: string,
-  setDecodedTransaction: Dispatch<SetStateAction<string>> // Updates the state with the new string value.
+  setDecodedTransaction: React.Dispatch<React.SetStateAction<DecodedTransaction | null>>,
 ) => {
   const blockstreamURL = `https://blockstream.info/${network}/${identifyData(txId, network)}/${txId}`;
 
@@ -90,4 +116,20 @@ export const decodeTransaction = (
     .catch((error) => {
       console.error("Error decoding transaction:", error.message);
     });
+};
+
+
+export const hashBloque = async (txid: string) => {
+  if (isBlock(txid)) {
+    const apiUrl = `https://blockstream.info/api/block-height/${txid}`;
+    try {
+      const response = await axios.get(apiUrl);
+      return response.data; // Devuelve el valor obtenido
+    } catch (error) {
+      console.error("Error getting block data:", error);
+      throw error;
+    }
+  } else {
+    throw new Error("Invalid txid for block");
+  }
 };

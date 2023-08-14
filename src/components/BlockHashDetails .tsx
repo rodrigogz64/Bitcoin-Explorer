@@ -14,7 +14,7 @@ interface Props {
   };
 }
 
-export default function Detalles({ decodedTransaction}: Props ) {
+export default function BlockHashDetails ({ decodedTransaction}: Props ) {
   const [copied, setCopied] = useState(false);
 
   const copyTextToClipboard = (text: string) => {

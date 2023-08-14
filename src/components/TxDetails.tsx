@@ -4,7 +4,7 @@ import "./Details.css";
 import img from "../assets/bitcoin-btc-flat-icon-isolated-on-white-background-vector-removebg-preview.png";
 import clipboard from "../assets/clipboard.png";
 
-export interface Props {
+interface Props {
   decodedTransaction: {
     txid: string;
     vin: { prevout: { scriptpubkey_address: string; value: number } }[];

@@ -3,7 +3,7 @@ import './Details.css';
 import img from "../assets/bitcoin-btc-flat-icon-isolated-on-white-background-vector-removebg-preview.png";
 import clipboard from '../assets/clipboard.png';
 
-export interface Props{
+interface Props{
   decodedTransaction: {
     address: string;
     chain_stats:{ funded_txo_count: number;

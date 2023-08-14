@@ -1,4 +1,4 @@
-import { useState } from "react";
+/* import { useState } from "react";
 import Menu from "../components/Menu";
 import Navbar from "../components/Navbar";
 import TxDetails from "../components/TxDetails";
@@ -36,4 +36,4 @@ const Testnet = () => {
   );
 };
 
-export default Testnet;
+export default Testnet; */
