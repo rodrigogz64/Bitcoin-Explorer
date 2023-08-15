@@ -1,6 +1,6 @@
 import { useState } from 'react';
 import './Details.css';
-import img from "../assets/bitcoin-btc-flat-icon-isolated-on-white-background-vector-removebg-preview.png";
+import img from '../assets/icons8-wallet.gif';
 import clipboard from '../assets/clipboard.png';
 
 interface Props{
@@ -27,12 +27,12 @@ export default function AddressDetails({ decodedTransaction }: Props){
   };
 
   const balance = ((decodedTransaction.chain_stats.funded_txo_sum - decodedTransaction.chain_stats.spent_txo_sum)/100000000);
-  function SatToBtc(num: number){ return (num/1000000000) }
+  function SatToBtc(num: number){ return (num/100000000) }
 
   return(
     <div className="container">
     <div className="title">
-      <img src={img} alt="" style={{ width: "80px" }} />
+      <img src={img} alt="" style={{borderRadius: "20px", marginRight: "10px" }} />
       <h2>Address</h2>
     </div>
     <div className="subtitle">
@@ -47,7 +47,7 @@ export default function AddressDetails({ decodedTransaction }: Props){
     <div className="table">
       <div>
         <div>Balance</div>
-        <div> {balance.toFixed(8)} BTC</div>
+        <div> {balance} BTC</div>
       </div>
       <div>
         <div>Total Transactions</div>

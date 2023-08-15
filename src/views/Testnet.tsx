@@ -4,11 +4,12 @@ import Navbar from "../components/Navbar";
 import {decodeTransaction,identifyData,DecodedTransaction} from "../views/Decoder";
 import TxDetails from "../components/TxDetails";
 import white from "../assets/bitcoin-white.svg";
-import BlockHashDetails from "../components/BlockDetails";
+import BlockHashDetails from "../components/BlockHashDetails ";
 import AddressDetails from "../components/AddressDetails";
 
 interface Props {
   decodedTransaction: DecodedTransaction;
+  network: string;
 }
 
 export default function Mainnet() {
@@ -42,7 +43,7 @@ export default function Mainnet() {
   const renderComponent = () => {
     if (!decodedTransaction) return null;
     if (componentSelected === "tx")
-      return <TxDetails decodedTransaction={decodedTransaction} />;
+      return <TxDetails decodedTransaction={decodedTransaction} network="testnet/api"/>;
     if (componentSelected === "block")
       return <BlockHashDetails decodedTransaction={decodedTransaction} />;
     if (componentSelected === "address")

@@ -5,11 +5,12 @@ import { decodeTransaction, identifyData, DecodedTransaction, hashBloque } from 
 import orange from '../assets/bitcoin-orange.svg';
 import TxDetails from '../components/TxDetails';
 import SplashScreen from '../components/SplashScreen';
-import BlockHashDetails from '../components/BlockDetails'
+import BlockHashDetails from '../components/BlockHashDetails '
 import AddressDetails from '../components/AddressDetails';
 
 interface Props {
   decodedTransaction: DecodedTransaction;
+  network: string;
 }
 
 export default function Mainnet() {
@@ -51,7 +52,7 @@ export default function Mainnet() {
 
   const renderComponent = () => {
     if (!decodedTransaction) return null;
-    if (componentSelected === 'tx') return <TxDetails decodedTransaction={decodedTransaction} />;
+    if (componentSelected === 'tx') return <TxDetails decodedTransaction={decodedTransaction} network="api"/>;
     if (componentSelected === 'block') return <BlockHashDetails decodedTransaction={decodedTransaction} />;
     if (componentSelected === 'address') return <AddressDetails decodedTransaction={decodedTransaction} />;
     return null;

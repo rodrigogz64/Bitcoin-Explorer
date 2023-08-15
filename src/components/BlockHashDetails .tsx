@@ -1,6 +1,6 @@
 import { useState } from "react";
 import "./Details.css";
-import img from "../assets/bitcoin-btc-flat-icon-isolated-on-white-background-vector-removebg-preview.png";
+import img from '../assets/3d-cube.gif';
 import clipboard from "../assets/clipboard.png";
 
 interface Props {
@@ -28,11 +28,11 @@ export default function BlockHashDetails ({ decodedTransaction}: Props ) {
         console.error(err);
       });
   };
-
+  
   return (
     <div className="container">
       <div className="title">
-        <img src={img} alt="" style={{ width: "80px" }} />
+        <img src={img} alt="" style={{ borderRadius: "50px", marginRight: "10px", width: "70px" }} />
         <h2>Block {decodedTransaction.height}</h2>
       </div>
       <div className="subtitle">
@@ -52,14 +52,15 @@ export default function BlockHashDetails ({ decodedTransaction}: Props ) {
         </div>
         <div>
           <div>Size</div>
-          <div> {(decodedTransaction.size / 1000000).toFixed(2)} MB</div>
+          <div> {(decodedTransaction.size.toString()).length == 3 ? decodedTransaction.size + `${' B'}`:
+            (decodedTransaction.size.toString()).length == 4 ? (decodedTransaction.size/1000).toFixed(2) + `${' KB'}`:
+            (decodedTransaction.size.toString()).length == 7 ? (decodedTransaction.size/1000000).toFixed(2) + `${' MB'}` : ""}
+          </div>
         </div>
         <div>
           <div>Timestamp</div>
           <div>
-            {new Date(decodedTransaction.timestamp * 1000).toLocaleString(
-              "es-SV"
-            )}
+            {new Date(decodedTransaction.timestamp * 1000).toLocaleString("es-SV")}
           </div>
         </div>
         <div>

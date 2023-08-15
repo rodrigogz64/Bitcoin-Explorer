@@ -26,21 +26,6 @@ function isValidTestetAddress(input: string): boolean{
 
 }
 
-function isValidLiquidBlockHash(input: string): boolean {
-  return /^[0-9a-fA-F]{64}$/.test(input);
-}
-
-/* function isValidLiquidTxHash(input: string): boolean {
-  return /^[0-9a-fA-F]{64}$/.test(input);
-} */
-
-function cout(input: string): string {
-  if (input.length === 64) return "tx";
-  if (isBlock(input)) return "block";
-  return "";
-}
-
-
 function mainnet(txId: string, network:string):string{
   if(network == 'api'){
     if (isBlockHash(txId) == false && isTxid(txId) == true) return "tx";
@@ -64,8 +49,18 @@ function testnet(txId: string, network:string):string{
 
 function liquid(txId: string, network:string):string{
   if(network == 'liquid/api'){
-    if(isValidLiquidBlockHash(txId) == true) return "tx"
-    cout(txId);
+    if(txId.length === 64) return "tx";
+    if(txId.length === 65) return "block"; 
+    if(txId.length >= 32 || txId.length <= 64) return "address";
+    if (isBlock(txId)) return "blocks";
+  } return "";
+}
+
+function liquidtestnet(txId: string, network:string):string{
+  if(network == 'liquidtestnet/api'){
+    if(txId.length === 64) return "tx";
+    if(txId.length === 65) return "block"; 
+    if(txId.length >= 32 || txId.length <= 64) return "address";
     if (isBlock(txId)) return "blocks";
   } return "";
 }
@@ -74,7 +69,8 @@ export const identifyData = (txId: string, network: string): string => {
   return (
     mainnet(txId, network) ||
     testnet(txId, network) ||
-    liquid(txId, network)
+    liquid(txId, network) ||
+    liquidtestnet(txId,network)
   );
 };
 

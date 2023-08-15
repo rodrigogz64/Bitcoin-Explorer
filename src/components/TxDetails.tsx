@@ -1,7 +1,7 @@
 import axios from "axios";
 import { useState, useEffect } from "react";
 import "./Details.css";
-import img from "../assets/bitcoin-btc-flat-icon-isolated-on-white-background-vector-removebg-preview.png";
+import img from "../assets/icons8-bitcoin.gif";
 import clipboard from "../assets/clipboard.png";
 
 interface Props {
@@ -13,23 +13,24 @@ interface Props {
     fee: number;
     weight: number;
   };
+  network: string;
 }
 
-export default function TxDetails({ decodedTransaction }: Props) {
+export default function TxDetails({ decodedTransaction, network }: Props) {
   const [lastBlockHeight, setLastBlockHeight] = useState(0);
   const [copied, setCopied] = useState(false);
 
   useEffect(() => {
     async function fetchLastBlockHeight() {
       try {
-        const response = await axios.get("https://blockstream.info/api/blocks");
+        const response = await axios.get(`https://blockstream.info/${network}/blocks`);
         setLastBlockHeight(response.data[0].height);
       } catch (error) {
         error;
       }
     }
     fetchLastBlockHeight();
-  }, []);
+  });
 
   let confirmationMessage = "Unconfirmed";
 
@@ -67,7 +68,7 @@ export default function TxDetails({ decodedTransaction }: Props) {
   return (
     <div className="container">
       <div className="title">
-        <img src={img} alt="" style={{ width: "80px" }} />
+        <img src={img} alt="" style={{ borderRadius: "50px", marginRight: "10px"  }} />
         <h2>Transaction</h2>
       </div>
       <div className="subtitle">
@@ -88,11 +89,8 @@ export default function TxDetails({ decodedTransaction }: Props) {
         <div>
           <div>Timestamp</div>
           <div>
-            {decodedTransaction.status?.block_time !== undefined
-              ? new Date(
-                  decodedTransaction.status.block_time * 1000
-                ).toLocaleString("es-SV")
-              : "N/A"}
+            {decodedTransaction.status?.block_time !== null
+              ? new Date(decodedTransaction.status.block_time * 1000).toLocaleString("es-SV"): "N/A"}
           </div>
         </div>
 
@@ -100,27 +98,27 @@ export default function TxDetails({ decodedTransaction }: Props) {
           <div>Transaction fees</div>
           <div>
             {decodedTransaction.fee.toLocaleString()} Sats (
-            {(decodedTransaction.fee / (decodedTransaction.weight / 4)).toFixed(
-              1
-            )}{" "}
-            sat/vB)
+            {(decodedTransaction.fee / (decodedTransaction.weight / 4)).toFixed(1)}{" "}sat/vB)
           </div>
         </div>
       </div>
       <div className="table2">
         <div className="Inputs">
           <div className="address">
-            {decodedTransaction.vin[0]?.prevout.scriptpubkey_address}
+            {decodedTransaction.vin[0]?.prevout === null ? null :
+              decodedTransaction.vin[0]?.prevout.scriptpubkey_address}
           </div>
           <div className="value">
-            {decodedTransaction.vin[0]?.prevout.value / 100000000} BTC
+            {decodedTransaction.vin[0]?.prevout === null ? 'Coinbase' :
+              (decodedTransaction.vin[0]?.prevout.value / 100000000) + `${'BTC'}` }
           </div>
         </div>
         <span> {">"} </span>
         <div className="Outputs">
           {voutDetails.map((detail, index) => (
             <div className="address" key={index}>
-              {detail.scriptpubkey_address}
+              {detail === null ? 'OP_RETURN' :
+                detail.scriptpubkey_address}
               <div className="value">{detail.value} BTC </div>
             </div>
           ))}

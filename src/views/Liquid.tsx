@@ -3,12 +3,13 @@ import Menu from "../components/Menu";
 import Navbar from "../components/Navbar";
 import {decodeTransaction,identifyData,DecodedTransaction,hashBloque,} from "../views/Decoder";
 import TxDetails from "../components/TxDetails";
-import BlockHashDetails from "../components/BlockDetails";
+import BlockHashDetails from "../components/BlockHashDetails ";
 import AddressDetails from "../components/AddressDetails";
 import liquid from "../assets/liquid.png";
 
 interface Props {
   decodedTransaction: DecodedTransaction;
+  network: string;
 }
 
 export default function LiquidTestnet() {
@@ -54,7 +55,7 @@ export default function LiquidTestnet() {
   const renderComponent = () => {
     if (!decodedTransaction) return null;
     if (componentSelected === "tx")
-      return <TxDetails decodedTransaction={decodedTransaction} />;
+      return <TxDetails decodedTransaction={decodedTransaction} network={"liquid/api"} />;
     if (componentSelected === "block")
       return <BlockHashDetails decodedTransaction={decodedTransaction} />;
     if (componentSelected === "address")
