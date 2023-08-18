@@ -25,32 +25,37 @@ export default function TxDetails({ decodedTransaction, network }: Props) {
       try {
         const response = await axios.get(`https://blockstream.info/${network}/blocks`);
         setLastBlockHeight(response.data[0].height);
-      } catch (error) {
-        error;
-      }
+      } catch (error) { error; }
     }
     fetchLastBlockHeight();
   });
 
   let confirmationMessage = "Unconfirmed";
 
-  if (
-    decodedTransaction &&
-    decodedTransaction.status &&
-    decodedTransaction.status.block_height
-  ) {
-    const confirmationCount =
-      lastBlockHeight - decodedTransaction.status.block_height + 1;
-    if (confirmationCount > 0) {
-      confirmationMessage = `${confirmationCount} Confirmations`;
-    }
+  if ( decodedTransaction && decodedTransaction.status && decodedTransaction.status.block_height) {
+    const confirmationCount = lastBlockHeight - decodedTransaction.status.block_height + 1;
+    if (confirmationCount > 0) { confirmationMessage = `${confirmationCount} Confirmations`; }
   }
+
+  const vinDetails = decodedTransaction.vin
+  ? decodedTransaction.vin.map((vin) => {
+      if (vin.prevout) {
+        return {
+          scriptpubkey_address: vin.prevout.scriptpubkey_address,
+          value: vin.prevout.value / 100000000,
+        };
+      } else {return null;}
+    })
+  : [];
+
+
   const voutDetails = decodedTransaction.vout
     ? decodedTransaction.vout.map((vout) => ({
         scriptpubkey_address: vout.scriptpubkey_address,
         value: vout.value / 100000000,
       }))
     : [];
+
   const copyTextToClipboard = (text: string) => {
     navigator.clipboard
       .writeText(text)
@@ -80,7 +85,6 @@ export default function TxDetails({ decodedTransaction, network }: Props) {
           {copied && <span className="copy-label">Copied!</span>}
         </div>
       </div>
-
       <div className="table">
         <div>
           <div>Status</div>
@@ -89,37 +93,54 @@ export default function TxDetails({ decodedTransaction, network }: Props) {
         <div>
           <div>Timestamp</div>
           <div>
-            {decodedTransaction.status?.block_time !== null
-              ? new Date(decodedTransaction.status.block_time * 1000).toLocaleString("es-SV"): "N/A"}
+            {decodedTransaction.status && decodedTransaction.status.block_time !== undefined ? 
+            new Date(decodedTransaction.status.block_time * 1000).toLocaleString("es-SV")
+            : 'N/A'}
           </div>
         </div>
 
         <div>
           <div>Transaction fees</div>
           <div>
-            {decodedTransaction.fee.toLocaleString()} Sats (
-            {(decodedTransaction.fee / (decodedTransaction.weight / 4)).toFixed(1)}{" "}sat/vB)
+            {decodedTransaction.fee !== undefined ? 
+            `${decodedTransaction.fee.toLocaleString()} Sats (${(decodedTransaction.fee / (decodedTransaction.weight / 4)).toFixed(2)} sat/vB)`
+            : 'N/A'}
           </div>
         </div>
       </div>
       <div className="table2">
         <div className="Inputs">
-          <div className="address">
-            {decodedTransaction.vin[0]?.prevout === null ? null :
-              decodedTransaction.vin[0]?.prevout.scriptpubkey_address}
-          </div>
-          <div className="value">
-            {decodedTransaction.vin[0]?.prevout === null ? 'Coinbase' :
-              (decodedTransaction.vin[0]?.prevout.value / 100000000) + `${'BTC'}` }
-          </div>
+          {vinDetails.map((detail, index) => (
+            <div className="Input" key={index}>
+              <div className="Input-container">
+                <div className="Input-detail">
+                  <span>
+                    <span>{detail && detail.scriptpubkey_address !== undefined ? detail.scriptpubkey_address : 'Coinbase'}</span>
+                  </span>
+                  <span className="amount">
+                    <span>{detail && detail.value !== undefined ? detail.value + ' BTC' : null}</span>
+                  </span>
+                </div>
+              </div>
+            </div>
+          ))}
         </div>
-        <span> {">"} </span>
+        <div>
+          <span> {">"} </span>
+        </div>
         <div className="Outputs">
           {voutDetails.map((detail, index) => (
-            <div className="address" key={index}>
-              {detail === null ? 'OP_RETURN' :
-                detail.scriptpubkey_address}
-              <div className="value">{detail.value} BTC </div>
+            <div className="Output" key={index}>
+              <div className="Output-container">
+                <div className="Output-detail">
+                  <span>
+                    <span>{detail && detail.scriptpubkey_address !== undefined ? (detail.scriptpubkey_address ? detail.scriptpubkey_address : 'OP_RETURN') : 'OP_RETURN'}</span>
+                  </span>
+                  <span className="amount">
+                    <span>{detail && detail.value !== undefined ? detail.value + ' BTC' : '0 BTC'}</span>
+                  </span>
+                </div>
+              </div>
             </div>
           ))}
         </div>

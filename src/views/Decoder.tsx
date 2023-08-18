@@ -50,18 +50,18 @@ function testnet(txId: string, network:string):string{
 function liquid(txId: string, network:string):string{
   if(network == 'liquid/api'){
     if(txId.length === 64) return "tx";
-    if(txId.length === 65) return "block"; 
+    //if(txId.length === 65) return "block"; 
     if(txId.length >= 32 || txId.length <= 64) return "address";
-    if (isBlock(txId)) return "blocks";
+    //if (isBlock(txId)) return "blocks";
   } return "";
 }
 
 function liquidtestnet(txId: string, network:string):string{
   if(network == 'liquidtestnet/api'){
     if(txId.length === 64) return "tx";
-    if(txId.length === 65) return "block"; 
+    //if(txId.length === 65) return "block"; 
     if(txId.length >= 32 || txId.length <= 64) return "address";
-    if (isBlock(txId)) return "blocks";
+    //if (isBlock(txId)) return "blocks";
   } return "";
 }
 

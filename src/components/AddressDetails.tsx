@@ -26,7 +26,9 @@ export default function AddressDetails({ decodedTransaction }: Props){
       .catch(err => { console.error(err); });
   };
 
-  const balance = ((decodedTransaction.chain_stats.funded_txo_sum - decodedTransaction.chain_stats.spent_txo_sum)/100000000);
+  const balance = decodedTransaction.chain_stats ? 
+  ((decodedTransaction.chain_stats.funded_txo_sum - decodedTransaction.chain_stats.spent_txo_sum) / 100000000)
+    : 0;
   function SatToBtc(num: number){ return (num/100000000) }
 
   return(
@@ -51,15 +53,21 @@ export default function AddressDetails({ decodedTransaction }: Props){
       </div>
       <div>
         <div>Total Transactions</div>
-        <div> {decodedTransaction.chain_stats.tx_count.toLocaleString()} </div>
+        <div>  {decodedTransaction.chain_stats && decodedTransaction.chain_stats.tx_count !== null ?
+          decodedTransaction.chain_stats.tx_count.toLocaleString() : null}
+        </div>
       </div>
       <div>
         <div>Total Received</div>
-        <div> {SatToBtc(decodedTransaction.chain_stats.funded_txo_sum)} BTC</div>
+        <div> {decodedTransaction.chain_stats && decodedTransaction.chain_stats.funded_txo_sum  !== null ?
+          SatToBtc(decodedTransaction.chain_stats.funded_txo_sum): null} BTC
+        </div>
       </div> 
       <div>
         <div>Total Sent</div>
-        <div> {SatToBtc(decodedTransaction.chain_stats.spent_txo_sum)} BTC</div>
+        <div> {decodedTransaction.chain_stats && decodedTransaction.chain_stats.spent_txo_sum !== null ?
+          SatToBtc(decodedTransaction.chain_stats.spent_txo_sum): null} BTC
+        </div>
       </div>
     </div>
 

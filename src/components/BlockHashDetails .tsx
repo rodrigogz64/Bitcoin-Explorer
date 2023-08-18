@@ -48,24 +48,26 @@ export default function BlockHashDetails ({ decodedTransaction}: Props ) {
       <div className="table">
         <div>
           <div>Transactions</div>
-          <div> {decodedTransaction.tx_count} </div>
+          <div> {decodedTransaction && decodedTransaction.tx_count !== undefined ? decodedTransaction.tx_count : null} </div>
         </div>
         <div>
           <div>Size</div>
-          <div> {(decodedTransaction.size.toString()).length == 3 ? decodedTransaction.size + `${' B'}`:
-            (decodedTransaction.size.toString()).length == 4 ? (decodedTransaction.size/1000).toFixed(2) + `${' KB'}`:
-            (decodedTransaction.size.toString()).length == 7 ? (decodedTransaction.size/1000000).toFixed(2) + `${' MB'}` : ""}
+          <div> {decodedTransaction.size !== undefined ? 
+            ((decodedTransaction.size.toString()).length <=4 ? decodedTransaction.size + ' B' :
+            (decodedTransaction.size.toString()).length <= 5 ? (decodedTransaction.size / 1000).toFixed(2) + ' KB' :
+            (decodedTransaction.size.toString()).length <= 8 ? (decodedTransaction.size / 1000000).toFixed(2) + ' MB' : "") : null}
           </div>
         </div>
         <div>
           <div>Timestamp</div>
           <div>
-            {new Date(decodedTransaction.timestamp * 1000).toLocaleString("es-SV")}
+          {decodedTransaction.timestamp !== undefined ? 
+            new Date(decodedTransaction.timestamp * 1000).toLocaleString("es-SV") : 'N/A'}
           </div>
         </div>
         <div>
           <div>Difficulty</div>
-          <div>{decodedTransaction.difficulty}</div>
+          <div>{decodedTransaction.difficulty !== undefined ? decodedTransaction.difficulty : null}</div>
         </div>
       </div>
     </div>

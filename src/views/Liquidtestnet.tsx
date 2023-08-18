@@ -26,12 +26,12 @@ export default function LiquidTestnet() {
       alert("Please enter a valid transaction ID.");
       return;
     }
-    decodeTransaction( "liquidtestnet/api/", txId, setDecodedTransaction as React.Dispatch<React.SetStateAction<DecodedTransaction | null>>
+    decodeTransaction( "liquidtestnet/api", txId, setDecodedTransaction as React.Dispatch<React.SetStateAction<DecodedTransaction | null>>
     );
     setTxId("");
   };
 
-  const identify = identifyData(txId, "liquidtestnet/api/");
+  const identify = identifyData(txId, "liquidtestnet/api");
 
   const handleButtonClick = async () => {
     if (
