@@ -12,7 +12,7 @@ interface NavbarProps {
 
 export default function Navbar({ txId, handleInputChange, handleDecodeTransaction, image, network, onButtonClick } : NavbarProps){
   const handleSubmit = (event: FormEvent) => {
-    event.preventDefault(); // Prevent the default form submission behavior
+    event.preventDefault();
     handleDecodeTransaction();
   };
 

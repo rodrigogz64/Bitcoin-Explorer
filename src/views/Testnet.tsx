@@ -1,10 +1,10 @@
 import { useState } from "react";
 import Menu from "../components/Menu";
 import Navbar from "../components/Navbar";
-import {decodeTransaction,identifyData,DecodedTransaction} from "../views/Decoder";
+import { decodeTransaction, identifyData, DecodedTransaction, fetchBlockHash} from "../views/Decoder";
 import TxDetails from "../components/TxDetails";
 import white from "../assets/bitcoin-white.svg";
-import BlockHashDetails from "../components/BlockHashDetails ";
+import BlockHashDetails from "../components/BlockHashDetails";
 import AddressDetails from "../components/AddressDetails";
 
 interface Props {
@@ -30,11 +30,22 @@ export default function Mainnet() {
     setTxId("");
   };
 
-  const identify = identifyData(txId, "testnet/api");
-
   const handleButtonClick = async () => {
-    if ( identify === "tx" || identify === "block" || identify === "address") {
-      setComponentSelected(identify);
+    const identifyResult = identifyData(txId, "testnet/api");
+
+    if (
+      identifyResult === "tx" ||
+      identifyResult === "block" ||
+      identifyResult == "block-height" ||
+      identifyResult === "address"
+    ) {
+      setComponentSelected(identifyResult);
+      if (identifyResult == "block-height") {
+        try {
+          const blockInput = await fetchBlockHash(Number(txId), "testnet/api");
+          decodeTransaction("testnet/api", blockInput, setDecodedTransaction as React.Dispatch<React.SetStateAction<DecodedTransaction | null>>);
+        } catch (error) {error}
+      }
     } else {
       setComponentSelected(null);
     }
@@ -43,8 +54,10 @@ export default function Mainnet() {
   const renderComponent = () => {
     if (!decodedTransaction) return null;
     if (componentSelected === "tx")
-      return <TxDetails decodedTransaction={decodedTransaction} network="testnet/api"/>;
-    if (componentSelected === "block")
+      return (
+        <TxDetails decodedTransaction={decodedTransaction} network="testnet/api" />
+      );
+    if (componentSelected === "block" || componentSelected === "block-height")
       return <BlockHashDetails decodedTransaction={decodedTransaction} />;
     if (componentSelected === "address")
       return <AddressDetails decodedTransaction={decodedTransaction} />;
