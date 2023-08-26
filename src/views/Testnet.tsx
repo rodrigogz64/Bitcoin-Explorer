@@ -33,12 +33,7 @@ export default function Mainnet() {
   const handleButtonClick = async () => {
     const identifyResult = identifyData(txId, "testnet/api");
 
-    if (
-      identifyResult === "tx" ||
-      identifyResult === "block" ||
-      identifyResult == "block-height" ||
-      identifyResult === "address"
-    ) {
+    if (identifyResult === "tx" || identifyResult === "block" || identifyResult == "block-height" || identifyResult === "address") {
       setComponentSelected(identifyResult);
       if (identifyResult == "block-height") {
         try {
@@ -53,15 +48,9 @@ export default function Mainnet() {
 
   const renderComponent = () => {
     if (!decodedTransaction) return null;
-    if (componentSelected === "tx")
-      return (
-        <TxDetails decodedTransaction={decodedTransaction} network="testnet/api" />
-      );
-    if (componentSelected === "block" || componentSelected === "block-height")
-      return <BlockHashDetails decodedTransaction={decodedTransaction} />;
-    if (componentSelected === "address")
-      return <AddressDetails decodedTransaction={decodedTransaction} />;
-    return null;
+    if (componentSelected === "tx") return (<TxDetails decodedTransaction={decodedTransaction} network="testnet/api" />);
+    if (componentSelected === "block" || componentSelected === "block-height") return <BlockHashDetails decodedTransaction={decodedTransaction} />;
+    if (componentSelected === "address") return <AddressDetails decodedTransaction={decodedTransaction} />;
   };
 
   return (

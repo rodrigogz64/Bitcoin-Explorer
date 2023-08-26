@@ -54,7 +54,6 @@ export default function Mainnet() {
     if (componentSelected === 'tx') return <TxDetails decodedTransaction={decodedTransaction} network="api"/>;
     if (componentSelected === 'block' || componentSelected === 'block-height') return <BlockHashDetails decodedTransaction={decodedTransaction} />;
     if (componentSelected === 'address') return <AddressDetails decodedTransaction={decodedTransaction} />;
-    return null;
   };
 
   useEffect(() => {
