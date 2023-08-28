@@ -70,7 +70,7 @@ export default function Mainnet() {
         handleDecodeTransaction={handleDecodeTransaction}
         onButtonClick={handleButtonClick}
         image={white}
-        network="Mainnet"
+        network="Testnet"
         toggleDarkMode={toggleDarkMode}
       />
       <Menu />
