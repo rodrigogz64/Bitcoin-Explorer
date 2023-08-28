@@ -1,8 +1,10 @@
 import axios from "axios";
 
 function isBlockHash(input: string): boolean {return /^0{8}[0-9a-fA-F]{56}$/.test(input);}
+function isBlockHashSignet(input: string): boolean {return /^[0-9a-fA-F]}{64}$/.test(input);}
 
 function isTxid(input: string): boolean { return /^[0-9a-fA-F]{64}$/.test(input);}
+function isTxidSignet(input: string): boolean {return /^[0-9a-fA-F]{62}$/.test(input);}
 
 function isValidBitcoinAddress(input: string): boolean {
   return (
@@ -19,7 +21,11 @@ function isValidTestetAddress(input: string): boolean{
     /^(m|n|2|tb1)[1-9A-HJ-NP-Za-km-z]{25,62}$/.test(input) ||
     /^(tb|TB)[a-zA-HJ-NP-Z0-9]{1,83}$/.test(input)
   );
+}
 
+function isValidSignetAddress(input: string): boolean {
+  return (/^[mn2][a-km-zA-HJ-NP-Z1-9]{25,34}$/.test(input) ||
+    /^(tb|bc|bcrt)[0-9A-HJ-NP-Z]{42,62}$/i.test(input))
 }
 
 function mainnet(txId: string, network:string):string{
@@ -32,13 +38,11 @@ function mainnet(txId: string, network:string):string{
   return "";
 }
 
-
-
 function testnet(txId: string, network:string):string{
   if(network === 'testnet/api'){
     if (isBlockHash(txId) == false && isTxid(txId) == true) return "tx";
     if (isBlockHash(txId) == true && isTxid(txId) == true) return "block";
-    if (isValidTestetAddress(txId)) return "address";
+    if (isValidSignetAddress(txId)) return "address";
     if (isBlock(txId)) return "block-height";
   }
   return "";
@@ -53,12 +57,12 @@ function liquid(txId: string, network:string):string{
   } return "";
 }
 
-function liquidtestnet(txId: string, network:string):string{
-  if(network === 'liquidtestnet/api'){
-    if(txId.length === 64) return "tx";
-    //if(txId.length === 65) return "block"; 
-    if(txId.length >= 32 || txId.length <= 64) return "address";
-    //if (isBlock(txId)) return "blocks";
+function signet(txId: string, network:string):string{
+  if(network === 'signet/api'){
+    if (isBlockHashSignet(txId) == false && isTxidSignet(txId) == true) return "tx";
+    if (isBlockHashSignet(txId) == true && isTxidSignet(txId) == true) return "block";
+    if (isValidTestetAddress(txId)) return "address";
+    if (isBlock(txId)) return "block-height";
   } return "";
 }
 
@@ -92,7 +96,7 @@ export const identifyData = (txId: string, network: string): string => {
     mainnet(txId, network) ||
     testnet(txId, network) ||
     liquid(txId, network) ||
-    liquidtestnet(txId, network)
+    signet(txId, network)
   );
 };
 

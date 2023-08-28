@@ -1,11 +1,13 @@
 import Menu from "../components/Menu";
 
-export default function LiquidTestnet() {
-
+export default function Liquid() {
   return (
     <>
       <Menu />
-      <div style={{color: "white"}}>Coming Soon!</div>
+      <div style={{ display: "flex", alignItems: "center", justifyContent: "center", 
+        color: "white", height: "100vh", fontSize: "3rem"}}>
+        Coming Soon!
+      </div>
     </>
   );
 }

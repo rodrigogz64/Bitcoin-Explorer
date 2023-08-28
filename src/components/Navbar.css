@@ -1,11 +1,13 @@
 
 nav {
-  background: #1a1f24;
+  /* background: #1a1f24; */
+  background: #333;
   border-radius: 2%;
   display: flex;
   justify-content: space-between;
   align-items: center;
   padding: 2px;
+  height: 70px;
 }
 
 .navbar-menu {

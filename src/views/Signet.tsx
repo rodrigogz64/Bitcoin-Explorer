@@ -1,10 +1,9 @@
-import React, { useEffect, useState } from 'react';
+import { useState } from 'react';
 import Menu from '../components/Menu';
 import Navbar from '../components/Navbar';
-import { decodeTransaction, identifyData, DecodedTransaction, fetchBlockHash} from '../views/Decoder';
-import orange from '../assets/bitcoin-orange.svg';
+import { decodeTransaction, identifyData, DecodedTransaction, fetchBlockHash} from './Decoder';
+import blue from '../assets/bitcoin-blue.svg';
 import TxDetails from '../components/TxDetails';
-import SplashScreen from '../components/SplashScreen';
 import BlockHashDetails from '../components/BlockHashDetails';
 import AddressDetails from '../components/AddressDetails';
 
@@ -13,12 +12,10 @@ interface Props {
   network: string;
 }
 
-export default function Mainnet() {
+export default function Signet() {
   const [txId, setTxId] = useState<string>('');
   const [decodedTransaction, setDecodedTransaction] = useState<Props['decodedTransaction'] | null>();
   const [componentSelected, setComponentSelected] = useState<string | null>(null);
-  const [showContent, setShowContent] = useState(false);
-
   const handleInputChange = (event: React.ChangeEvent<HTMLInputElement>) => {
     setTxId(event.target.value);
   };
@@ -28,19 +25,19 @@ export default function Mainnet() {
       alert("Please enter a valid transaction ID.");
       return;
     }
-    decodeTransaction("api", txId, setDecodedTransaction as React.Dispatch<React.SetStateAction<DecodedTransaction | null>>);
+    decodeTransaction("signet/api", txId, setDecodedTransaction as React.Dispatch<React.SetStateAction<DecodedTransaction | null>>);
     setTxId("");
   };
 
   const handleButtonClick = async () => {
-    const identifyResult = identifyData(txId, 'api');
+    const identifyResult = identifyData(txId, 'signet/api');
   
     if (identifyResult === 'tx' || identifyResult === 'block' || identifyResult == 'block-height' || identifyResult === 'address') {
     setComponentSelected(identifyResult);
     if(identifyResult == 'block-height'){
         try {
-          const blockHash = await fetchBlockHash(Number(txId), 'api');
-          decodeTransaction("api", blockHash, setDecodedTransaction as React.Dispatch<React.SetStateAction<DecodedTransaction | null>>);
+          const blockHash = await fetchBlockHash(Number(txId), 'signet/api');
+          decodeTransaction("signet/api", blockHash, setDecodedTransaction as React.Dispatch<React.SetStateAction<DecodedTransaction | null>>);
 
         } catch (error) {error}
       }
@@ -51,36 +48,23 @@ export default function Mainnet() {
 
   const renderComponent = () => {
     if (!decodedTransaction) return null;
-    if (componentSelected === 'tx') return <TxDetails decodedTransaction={decodedTransaction} network="api"/>;
+    if (componentSelected === 'tx') return <TxDetails decodedTransaction={decodedTransaction} network="signet/api"/>;
     if (componentSelected === 'block' || componentSelected === 'block-height') return <BlockHashDetails decodedTransaction={decodedTransaction} />;
     if (componentSelected === 'address') return <AddressDetails decodedTransaction={decodedTransaction} />;
   };
 
-  useEffect(() => {
-    const timer = setTimeout(() => {
-      setShowContent(true);
-    }, 4500);
-    return () => clearTimeout(timer);
-  }, []);
-
   return (
     <>
-      {showContent ? (
-        <>
-          <Navbar
-            txId={txId}
-            handleInputChange={handleInputChange}
-            handleDecodeTransaction={handleDecodeTransaction}
-            onButtonClick={handleButtonClick}
-            image={orange}
-            network="Mainnet"
-          />
-          <Menu />
-          <div>{renderComponent()}</div>
-        </>
-      ) : (
-        <SplashScreen />
-      )}
+      <Navbar
+        txId={txId}
+        handleInputChange={handleInputChange}
+        handleDecodeTransaction={handleDecodeTransaction}
+        onButtonClick={handleButtonClick}
+        image={blue}
+        network="Signet"
+      />
+      <Menu />
+      <div>{renderComponent()}</div>
     </>
   );
 }
