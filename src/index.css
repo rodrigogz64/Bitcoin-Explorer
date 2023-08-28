@@ -3,3 +3,25 @@ body{
   padding: 0;
   margin: 0;
 }
+
+/* Light Mode*/
+.light-mode {
+  background-color: white;
+  transition: background-color 0.3s, color 0.3s;
+}
+.light-mode .wave::before { background: white; }
+.light-mode .wave::after { background: black; }
+
+.light-mode .container {
+  color: black;
+}
+
+/* Dark Mode*/
+.dark-mode{
+  background-color: #171a1f;
+}
+
+.dark-mode .container{
+  color: #fff;
+}
+

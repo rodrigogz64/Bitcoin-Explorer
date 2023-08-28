@@ -4,7 +4,7 @@ function isBlockHash(input: string): boolean {return /^0{8}[0-9a-fA-F]{56}$/.tes
 function isBlockHashSignet(input: string): boolean {return /^[0-9a-fA-F]}{64}$/.test(input);}
 
 function isTxid(input: string): boolean { return /^[0-9a-fA-F]{64}$/.test(input);}
-function isTxidSignet(input: string): boolean {return /^[0-9a-fA-F]{62}$/.test(input);}
+function isTxidSignet(input: string): boolean {return /^[0-9a-fA-F]{62,65}$/.test(input);}
 
 function isValidBitcoinAddress(input: string): boolean {
   return (
@@ -18,14 +18,19 @@ function isBlock(input: string): boolean { return /^[0-9]+$/.test(input); }
 
 function isValidTestetAddress(input: string): boolean{
   return  (
-    /^(m|n|2|tb1)[1-9A-HJ-NP-Za-km-z]{25,62}$/.test(input) ||
-    /^(tb|TB)[a-zA-HJ-NP-Z0-9]{1,83}$/.test(input)
+    /^(m|n|2|tb1)[1-9A-HJ-NP-Za-km-z]{25,83}$/.test(input) ||
+    /^(tb|TB)[a-zA-HJ-NP-Z0-9]{25,83}$/.test(input) ||
+    /^(tb|bc|bcrt)[0-9A-HJ-NP-Z]{25,83}$/.test(input) ||
+    /^[13][a-km-zA-HJ-NP-Z1-9]{25,34}$/.test(input) ||
+    /^(bc|tb)[a-zA-HJ-NP-Z0-9]{41,71}$/.test(input) ||
+    /^[2mn][a-km-zA-HJ-NP-Z1-9]{25,39}$/.test(input)
+    
   );
 }
 
 function isValidSignetAddress(input: string): boolean {
   return (/^[mn2][a-km-zA-HJ-NP-Z1-9]{25,34}$/.test(input) ||
-    /^(tb|bc|bcrt)[0-9A-HJ-NP-Z]{42,62}$/i.test(input))
+    /^(tb|bc|bcrt)[0-9A-HJ-NP-Z]{42,62}$/.test(input))
 }
 
 function mainnet(txId: string, network:string):string{

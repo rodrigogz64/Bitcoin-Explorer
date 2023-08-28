@@ -12,9 +12,10 @@ interface Props {
     size: number;
     difficulty: number;
   };
+  network: string;
 }
 
-export default function BlockHashDetails ({ decodedTransaction}: Props ) {
+export default function BlockHashDetails ({ decodedTransaction, network}: Props ) {
   const [copied, setCopied] = useState(false);
 
   const copyTextToClipboard = (text: string) => {
@@ -33,7 +34,8 @@ export default function BlockHashDetails ({ decodedTransaction}: Props ) {
     <div className="container">
       <div className="title">
         <img src={img} alt="" style={{ borderRadius: "50px", marginRight: "10px", width: "70px" }} />
-        <h2>Block {decodedTransaction.height}</h2>
+        <h2>{decodedTransaction.height === 0 && network === 'api' ? `${'Genesis '}` + decodedTransaction.height
+        :  `${'Block '}` + decodedTransaction.height}</h2>
       </div>
       <div className="subtitle">
         <h4>{decodedTransaction.id}</h4>

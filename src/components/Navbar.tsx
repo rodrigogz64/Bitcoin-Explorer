@@ -8,9 +8,11 @@ interface NavbarProps {
   onButtonClick: MouseEventHandler<HTMLButtonElement>;
   image: string;
   network: string;
+  toggleDarkMode: MouseEventHandler<HTMLButtonElement>;
 }
 
-export default function Navbar({ txId, handleInputChange, handleDecodeTransaction, image, network, onButtonClick } : NavbarProps){
+export default function Navbar({ txId, handleInputChange, handleDecodeTransaction, image, network, 
+  onButtonClick, toggleDarkMode } : NavbarProps){
   const handleSubmit = (event: FormEvent) => {
     event.preventDefault();
     handleDecodeTransaction();
@@ -40,6 +42,9 @@ export default function Navbar({ txId, handleInputChange, handleDecodeTransactio
               </button>
             </div>
           </form>
+          <div className="theme-toggle">
+            <button onClick={toggleDarkMode}>Light</button>
+          </div>
         </div>
     </nav>
   );

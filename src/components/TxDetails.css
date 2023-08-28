@@ -1,7 +1,6 @@
 @import url('https://fonts.googleapis.com/css2?family=Source+Sans+3&display=swap');
 
 .container {
-  color: #fff;
   display: flex;
   flex-direction: column;
   align-items: center;

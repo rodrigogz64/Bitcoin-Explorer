@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import Menu from "../components/Menu";
 import Navbar from "../components/Navbar";
 import { decodeTransaction, identifyData, DecodedTransaction, fetchBlockHash} from "../views/Decoder";
@@ -16,6 +16,7 @@ export default function Mainnet() {
   const [txId, setTxId] = useState<string>("");
   const [decodedTransaction, setDecodedTransaction] = useState<Props["decodedTransaction"] | null>();
   const [componentSelected, setComponentSelected] = useState<string | null>(null);
+  const [darkMode, setDarkMode] = useState(true); 
 
   const handleInputChange = (event: React.ChangeEvent<HTMLInputElement>) => {
     setTxId(event.target.value);
@@ -49,22 +50,31 @@ export default function Mainnet() {
   const renderComponent = () => {
     if (!decodedTransaction) return null;
     if (componentSelected === "tx") return (<TxDetails decodedTransaction={decodedTransaction} network="testnet/api" />);
-    if (componentSelected === "block" || componentSelected === "block-height") return <BlockHashDetails decodedTransaction={decodedTransaction} />;
+    if (componentSelected === 'block' || componentSelected === 'block-height') return <BlockHashDetails decodedTransaction={decodedTransaction}  network="testnet/api"/>;
     if (componentSelected === "address") return <AddressDetails decodedTransaction={decodedTransaction} />;
   };
 
+  const toggleDarkMode = () => {
+    setDarkMode(!darkMode);
+  };
+
+  useEffect(() => {
+    document.body.className = darkMode ? 'dark-mode' : 'light-mode';
+  }, [darkMode]);
+  
   return (
-    <>
+    <div className="app-container">
       <Navbar
         txId={txId}
         handleInputChange={handleInputChange}
         handleDecodeTransaction={handleDecodeTransaction}
         onButtonClick={handleButtonClick}
         image={white}
-        network="Testnet"
+        network="Mainnet"
+        toggleDarkMode={toggleDarkMode}
       />
       <Menu />
-      <div>{renderComponent()}</div>
-    </>
+      <div className="content">{renderComponent()}</div>
+    </div>
   );
 }

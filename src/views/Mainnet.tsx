@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from 'react';
 import Menu from '../components/Menu';
 import Navbar from '../components/Navbar';
-import { decodeTransaction, identifyData, DecodedTransaction, fetchBlockHash} from '../views/Decoder';
+import { decodeTransaction, identifyData, DecodedTransaction, fetchBlockHash } from '../views/Decoder';
 import orange from '../assets/bitcoin-orange.svg';
 import TxDetails from '../components/TxDetails';
 import SplashScreen from '../components/SplashScreen';
@@ -18,6 +18,7 @@ export default function Mainnet() {
   const [decodedTransaction, setDecodedTransaction] = useState<Props['decodedTransaction'] | null>();
   const [componentSelected, setComponentSelected] = useState<string | null>(null);
   const [showContent, setShowContent] = useState(false);
+  const [darkMode, setDarkMode] = useState(true); 
 
   const handleInputChange = (event: React.ChangeEvent<HTMLInputElement>) => {
     setTxId(event.target.value);
@@ -34,15 +35,17 @@ export default function Mainnet() {
 
   const handleButtonClick = async () => {
     const identifyResult = identifyData(txId, 'api');
-  
+
     if (identifyResult === 'tx' || identifyResult === 'block' || identifyResult == 'block-height' || identifyResult === 'address') {
-    setComponentSelected(identifyResult);
-    if(identifyResult == 'block-height'){
+      setComponentSelected(identifyResult);
+      if (identifyResult == 'block-height') {
         try {
           const blockHash = await fetchBlockHash(Number(txId), 'api');
           decodeTransaction("api", blockHash, setDecodedTransaction as React.Dispatch<React.SetStateAction<DecodedTransaction | null>>);
 
-        } catch (error) {error}
+        } catch (error) {
+          console.error(error);
+        }
       }
     } else {
       setComponentSelected(null);
@@ -51,9 +54,13 @@ export default function Mainnet() {
 
   const renderComponent = () => {
     if (!decodedTransaction) return null;
-    if (componentSelected === 'tx') return <TxDetails decodedTransaction={decodedTransaction} network="api"/>;
-    if (componentSelected === 'block' || componentSelected === 'block-height') return <BlockHashDetails decodedTransaction={decodedTransaction} />;
+    if (componentSelected === 'tx') return <TxDetails decodedTransaction={decodedTransaction} network="api" />;
+    if (componentSelected === 'block' || componentSelected === 'block-height') return <BlockHashDetails decodedTransaction={decodedTransaction}  network="api"/>;
     if (componentSelected === 'address') return <AddressDetails decodedTransaction={decodedTransaction} />;
+  };
+
+  const toggleDarkMode = () => {
+    setDarkMode(!darkMode);
   };
 
   useEffect(() => {
@@ -63,8 +70,12 @@ export default function Mainnet() {
     return () => clearTimeout(timer);
   }, []);
 
+  useEffect(() => {
+    document.body.className = darkMode ? 'dark-mode' : 'light-mode';
+  }, [darkMode]);
+
   return (
-    <>
+    <div className="app-container">
       {showContent ? (
         <>
           <Navbar
@@ -74,13 +85,14 @@ export default function Mainnet() {
             onButtonClick={handleButtonClick}
             image={orange}
             network="Mainnet"
+            toggleDarkMode={toggleDarkMode}
           />
           <Menu />
-          <div>{renderComponent()}</div>
+          <div className="content">{renderComponent()}</div>
         </>
       ) : (
         <SplashScreen />
       )}
-    </>
+    </div>
   );
 }
