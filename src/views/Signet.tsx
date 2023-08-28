@@ -71,7 +71,7 @@ export default function Signet() {
         handleDecodeTransaction={handleDecodeTransaction}
         onButtonClick={handleButtonClick}
         image={blue}
-        network="Mainnet"
+        network="Signet"
         toggleDarkMode={toggleDarkMode}
       />
       <Menu />
