@@ -1,5 +1,7 @@
 import { ChangeEvent, FormEvent, MouseEventHandler } from 'react';
 import './Navbar.css';
+import moon from '../assets/Moon.svg';
+import sun from '../assets/Sun.svg';
 
 interface NavbarProps {
   txId: string;
@@ -9,10 +11,11 @@ interface NavbarProps {
   image: string;
   network: string;
   toggleDarkMode: MouseEventHandler<HTMLButtonElement>;
+  darkMode: boolean;
 }
 
 export default function Navbar({ txId, handleInputChange, handleDecodeTransaction, image, network, 
-  onButtonClick, toggleDarkMode } : NavbarProps){
+  onButtonClick, toggleDarkMode, darkMode } : NavbarProps){
   const handleSubmit = (event: FormEvent) => {
     event.preventDefault();
     handleDecodeTransaction();
@@ -43,7 +46,9 @@ export default function Navbar({ txId, handleInputChange, handleDecodeTransactio
             </div>
           </form>
           <div className="theme-toggle">
-            <button onClick={toggleDarkMode}>Light</button>
+            <button onClick={toggleDarkMode}>
+              <img src={darkMode ? sun : moon} alt={darkMode ? 'Light Mode' : 'Dark Mode'}/>
+            </button>
           </div>
         </div>
     </nav>

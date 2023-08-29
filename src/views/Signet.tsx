@@ -1,11 +1,11 @@
 import { useEffect, useState } from 'react';
 import Menu from '../components/Menu';
 import Navbar from '../components/Navbar';
-import { decodeTransaction, identifyData, DecodedTransaction, fetchBlockHash} from './Decoder';
+import { decodeTransaction, identifyData, DecodedTransaction, fetchBlockHash} from '../assets/Decoder';
 import blue from '../assets/bitcoin-blue.svg';
-import TxDetails from '../components/TxDetails';
-import BlockHashDetails from '../components/BlockHashDetails';
-import AddressDetails from '../components/AddressDetails';
+import TxDetails from '../components/Details/TxDetails';
+import BlockHashDetails from '../components/Details/BlockHashDetails';
+import AddressDetails from '../components/Details/AddressDetails';
 
 interface Props {
   decodedTransaction: DecodedTransaction;
@@ -55,9 +55,7 @@ export default function Signet() {
     if (componentSelected === 'address') return <AddressDetails decodedTransaction={decodedTransaction} />;
   };
 
-  const toggleDarkMode = () => {
-    setDarkMode(!darkMode);
-  };
+  const toggleDarkMode = () => {setDarkMode(!darkMode);};
 
   useEffect(() => {
     document.body.className = darkMode ? 'dark-mode' : 'light-mode';
@@ -73,8 +71,13 @@ export default function Signet() {
         image={blue}
         network="Signet"
         toggleDarkMode={toggleDarkMode}
+        darkMode={darkMode}
       />
       <Menu />
+      <div style={{ display: "flex", alignItems: "center", justifyContent: "center", 
+        color: "white", height: "100vh", fontSize: "3rem"}}>
+        Coming Soon!
+      </div>
       <div className="content">{renderComponent()}</div>
     </div>
   );

@@ -108,6 +108,33 @@
   z-index: -1;
 }
 
+
+.custom-tooltip {
+  position: relative;
+  display: inline-block;
+}
+
+.custom-tooltip .tooltip-text {
+  position: absolute;
+  left: -65px; /* Ajusta la posición izquierda del tooltip */
+  bottom: 20px; /* Ajusta la posición vertical del tooltip */
+  background-color: rgba(0, 0, 0, 0.7);
+  color: white;
+  padding: 4px 8px;
+  border-radius: 4px;
+  font-size: 12px;
+  white-space: nowrap;
+  opacity: 0;
+  visibility: hidden;
+  transition: opacity 0.3s ease, visibility 0.3s ease;
+}
+
+.custom-tooltip:hover{ transform: scale(1.2);}
+.custom-tooltip:hover .tooltip-text {
+  opacity: 1;
+  visibility: visible;
+}
+
 .circle {
   width: 50px;
   height: 50px;

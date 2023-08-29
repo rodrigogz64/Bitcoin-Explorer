@@ -1,12 +1,13 @@
 import React, { useEffect, useState } from 'react';
 import Menu from '../components/Menu';
 import Navbar from '../components/Navbar';
-import { decodeTransaction, identifyData, DecodedTransaction, fetchBlockHash } from '../views/Decoder';
+import { decodeTransaction, identifyData, DecodedTransaction, fetchBlockHash } from '../assets/Decoder';
 import orange from '../assets/bitcoin-orange.svg';
-import TxDetails from '../components/TxDetails';
 import SplashScreen from '../components/SplashScreen';
-import BlockHashDetails from '../components/BlockHashDetails';
-import AddressDetails from '../components/AddressDetails';
+//import ErrorModal from "../components/ErrorModal";
+import TxDetails from '../components/Details/TxDetails';
+import BlockHashDetails from '../components/Details/BlockHashDetails';
+import AddressDetails from '../components/Details/AddressDetails';
 
 interface Props {
   decodedTransaction: DecodedTransaction;
@@ -14,19 +15,21 @@ interface Props {
 }
 
 export default function Mainnet() {
+  const [darkMode, setDarkMode] = useState(true);
   const [txId, setTxId] = useState<string>('');
   const [decodedTransaction, setDecodedTransaction] = useState<Props['decodedTransaction'] | null>();
   const [componentSelected, setComponentSelected] = useState<string | null>(null);
   const [showContent, setShowContent] = useState(false);
-  const [darkMode, setDarkMode] = useState(true); 
+/*   const [error, setError] = useState<string | null>(null); */
 
+  const toggleDarkMode = () => { setDarkMode(!darkMode);};
   const handleInputChange = (event: React.ChangeEvent<HTMLInputElement>) => {
     setTxId(event.target.value);
   };
 
   const handleDecodeTransaction = () => {
     if (!txId.trim()) {
-      alert("Please enter a valid transaction ID.");
+      alert("Please enter a valid Input");
       return;
     }
     decodeTransaction("api", txId, setDecodedTransaction as React.Dispatch<React.SetStateAction<DecodedTransaction | null>>);
@@ -42,14 +45,9 @@ export default function Mainnet() {
         try {
           const blockHash = await fetchBlockHash(Number(txId), 'api');
           decodeTransaction("api", blockHash, setDecodedTransaction as React.Dispatch<React.SetStateAction<DecodedTransaction | null>>);
-
-        } catch (error) {
-          console.error(error);
-        }
+        } catch (error) { error}
       }
-    } else {
-      setComponentSelected(null);
-    }
+    } else { setComponentSelected(null); }
   };
 
   const renderComponent = () => {
@@ -59,9 +57,7 @@ export default function Mainnet() {
     if (componentSelected === 'address') return <AddressDetails decodedTransaction={decodedTransaction} />;
   };
 
-  const toggleDarkMode = () => {
-    setDarkMode(!darkMode);
-  };
+/*   const handleCloseErrorModal = () => { setError(null); }; */
 
   useEffect(() => {
     const timer = setTimeout(() => {
@@ -86,13 +82,16 @@ export default function Mainnet() {
             image={orange}
             network="Mainnet"
             toggleDarkMode={toggleDarkMode}
+            darkMode={darkMode}
           />
           <Menu />
           <div className="content">{renderComponent()}</div>
         </>
       ) : (
         <SplashScreen />
-      )}
+        )}
     </div>
   );
 }
+
+/* {error && (<ErrorModal errorMessage={error} onClose={handleCloseErrorModal} />)} */

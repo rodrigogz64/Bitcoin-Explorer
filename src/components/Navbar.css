@@ -1,6 +1,4 @@
-
 nav {
-  /* background: #1a1f24; */
   background: #333;
   display: flex;
   justify-content: space-between;
@@ -23,13 +21,9 @@ nav {
   color: #fff;
   font-size: 20px;
   text-decoration: none;
-  margin: 0 5px;
 }
 
-.logoimg {
-  width: 40px;
-  margin-right: 10px; 
-}
+.logoimg { width: 40px;}
 
 .navbar h6 {
   color: gray;
@@ -94,37 +88,13 @@ h6{
   nav {
     flex-direction: row;
     justify-content: space-between; 
-    padding: 10px; 
-  }
-  .navbar-menu {
-    margin: 0;
-  }
-  .logoimg{
-    margin-right: 0px;
-    padding-right: 0px;
-  }
-  ul{
-    padding-left: 0px;
-  }
-  
-  .navbar-menu a {
-    font-size: 16px;
-    margin: 0 0px;
+    padding: 10px;
   }
 
-  .logoimg {
-    width: 30px;
-    margin: 0px;
-  }
-
-  .navbar h6 {
-    margin-top: 5px;
-    font-size: 9px;
-
-  }
-  .search-container {
-    margin-right: 10px;
-  }
+  .navbar-menu h6{ font-size: 12px;}
+  .navbar-menu a { font-size: 16px; }
+  .logoimg { width: 30px; }
+  .search-container { margin-left: 30px; }
   
   .search-wrapper {
     width: 100%;
@@ -136,7 +106,6 @@ h6{
   .search-input {
     width: calc(100% - 20px); 
     font-size: 13px;
-    padding: 0px 10px;
   }
   .svg{
     width:25px;

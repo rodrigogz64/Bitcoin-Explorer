@@ -1,11 +1,11 @@
 import { useEffect, useState } from "react";
 import Menu from "../components/Menu";
 import Navbar from "../components/Navbar";
-import { decodeTransaction, identifyData, DecodedTransaction, fetchBlockHash} from "../views/Decoder";
-import TxDetails from "../components/TxDetails";
+import { decodeTransaction, identifyData, DecodedTransaction, fetchBlockHash} from "../assets/Decoder";
+import TxDetails from "../components/Details/TxDetails";
 import white from "../assets/bitcoin-white.svg";
-import BlockHashDetails from "../components/BlockHashDetails";
-import AddressDetails from "../components/AddressDetails";
+import BlockHashDetails from "../components/Details/BlockHashDetails";
+import AddressDetails from "../components/Details/AddressDetails";
 
 interface Props {
   decodedTransaction: DecodedTransaction;
@@ -54,9 +54,7 @@ export default function Mainnet() {
     if (componentSelected === "address") return <AddressDetails decodedTransaction={decodedTransaction} />;
   };
 
-  const toggleDarkMode = () => {
-    setDarkMode(!darkMode);
-  };
+  const toggleDarkMode = () => {setDarkMode(!darkMode);};
 
   useEffect(() => {
     document.body.className = darkMode ? 'dark-mode' : 'light-mode';
@@ -72,6 +70,7 @@ export default function Mainnet() {
         image={white}
         network="Testnet"
         toggleDarkMode={toggleDarkMode}
+        darkMode={darkMode}
       />
       <Menu />
       <div className="content">{renderComponent()}</div>
