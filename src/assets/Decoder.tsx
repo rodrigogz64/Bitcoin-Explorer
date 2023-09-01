@@ -1,10 +1,10 @@
 import axios from "axios";
 
 function isBlockHash(input: string): boolean {return /^0{8}[0-9a-fA-F]{56}$/.test(input);}
-function isBlockHashSignet(input: string): boolean {return /^[0-9a-fA-F]}{64}$/.test(input);}
+/* function isBlockHashSignet(input: string): boolean {return /^[0-9a-fA-F]}{64}$/.test(input);} */
 
-function isTxid(input: string): boolean { return /^[0-9a-fA-F]{62}$/.test(input);}
-function isTxidSignet(input: string): boolean {return /^[0-9a-fA-F]{64}$/.test(input);}
+function isTxid(input: string): boolean { return /^[0-9a-fA-F]{64}$/.test(input);}
+/* function isTxidSignet(input: string): boolean {return /^[0-9a-fA-F]{64}$/.test(input);} */
 
 function isValidBitcoinAddress(input: string): boolean {
   return (
@@ -32,14 +32,13 @@ function isValidTestetAddress(input: string): boolean{
   return (/^(tb1)[0-9A-HJ-NP-Z]{42,62}$/.test(input))
 } */
 
-function mainnet(txId: string, network:string):string{
+function mainnet(txId: string, network:string){
   if(network === 'api'){
     if (isBlockHash(txId) == false && isTxid(txId) == true) return "tx";
     if (isBlockHash(txId) == true && isTxid(txId) == true) return "block";
     if (isValidBitcoinAddress(txId)) return "address";
     if (isBlock(txId)) return "block-height";
   }
-  return "";
 }
 
 function testnet(txId: string, network:string):string{
@@ -52,14 +51,14 @@ function testnet(txId: string, network:string):string{
   return "";
 }
 
-function signet(txId: string, network:string):string{
+/* function signet(txId: string, network:string):string{
   if(network === 'signet/api'){
     if (isTxidSignet(txId)) return "tx";
     if (isBlockHashSignet(txId)) return "block";
     if (isValidTestetAddress(txId)) return "address";
     if (isBlock(txId)) return "block-height";
   } return "";
-}
+} */
 
 function liquid(txId: string, network:string):string{
   if(network === 'liquid/api'){
@@ -108,7 +107,6 @@ export const identifyData = (txId: string, network: string): string => {
   return (
     mainnet(txId, network) ||
     testnet(txId, network) ||
-    signet(txId, network) ||
     liquid(txId, network)
   );
 };

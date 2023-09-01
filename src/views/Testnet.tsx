@@ -1,4 +1,4 @@
-import { useEffect, useState } from "react";
+import { useState } from "react";
 import Menu from "../components/Menu";
 import Navbar from "../components/Navbar";
 import { decodeTransaction, identifyData, DecodedTransaction, fetchBlockHash} from "../assets/Decoder";
@@ -16,7 +16,6 @@ export default function Mainnet() {
   const [txId, setTxId] = useState<string>("");
   const [decodedTransaction, setDecodedTransaction] = useState<Props["decodedTransaction"] | null>();
   const [componentSelected, setComponentSelected] = useState<string | null>(null);
-  const [darkMode, setDarkMode] = useState(true); 
 
   const handleInputChange = (event: React.ChangeEvent<HTMLInputElement>) => {
     setTxId(event.target.value);
@@ -53,12 +52,6 @@ export default function Mainnet() {
     if (componentSelected === 'block' || componentSelected === 'block-height') return <BlockHashDetails decodedTransaction={decodedTransaction}  network="testnet/api"/>;
     if (componentSelected === "address") return <AddressDetails decodedTransaction={decodedTransaction} />;
   };
-
-  const toggleDarkMode = () => {setDarkMode(!darkMode);};
-
-  useEffect(() => {
-    document.body.className = darkMode ? 'dark-mode' : 'light-mode';
-  }, [darkMode]);
   
   return (
     <div className="app-container">
@@ -69,8 +62,6 @@ export default function Mainnet() {
         onButtonClick={handleButtonClick}
         image={white}
         network="Testnet"
-        toggleDarkMode={toggleDarkMode}
-        darkMode={darkMode}
       />
       <Menu />
       <div className="content">{renderComponent()}</div>

@@ -15,14 +15,14 @@ interface Props {
 }
 
 export default function Mainnet() {
-  const [darkMode, setDarkMode] = useState(true);
+
   const [txId, setTxId] = useState<string>('');
   const [decodedTransaction, setDecodedTransaction] = useState<Props['decodedTransaction'] | null>();
   const [componentSelected, setComponentSelected] = useState<string | null>(null);
   const [showContent, setShowContent] = useState(false);
 /*   const [error, setError] = useState<string | null>(null); */
 
-  const toggleDarkMode = () => { setDarkMode(!darkMode);};
+
   const handleInputChange = (event: React.ChangeEvent<HTMLInputElement>) => {
     setTxId(event.target.value);
   };
@@ -65,11 +65,7 @@ export default function Mainnet() {
     }, 4500);
     return () => clearTimeout(timer);
   }, []);
-
-  useEffect(() => {
-    document.body.className = darkMode ? 'dark-mode' : 'light-mode';
-  }, [darkMode]);
-
+  
   return (
     <div className="app-container">
       {showContent ? (
@@ -81,8 +77,6 @@ export default function Mainnet() {
             onButtonClick={handleButtonClick}
             image={orange}
             network="Mainnet"
-            toggleDarkMode={toggleDarkMode}
-            darkMode={darkMode}
           />
           <Menu />
           <div className="content">{renderComponent()}</div>

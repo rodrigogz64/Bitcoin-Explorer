@@ -1,4 +1,4 @@
-import { ChangeEvent, FormEvent, MouseEventHandler } from 'react';
+import { ChangeEvent, FormEvent, MouseEventHandler, useEffect, useState } from 'react';
 import './Navbar.css';
 import moon from '../assets/Moon.svg';
 import sun from '../assets/Sun.svg';
@@ -10,16 +10,20 @@ interface NavbarProps {
   onButtonClick: MouseEventHandler<HTMLButtonElement>;
   image: string;
   network: string;
-  toggleDarkMode: MouseEventHandler<HTMLButtonElement>;
-  darkMode: boolean;
 }
 
 export default function Navbar({ txId, handleInputChange, handleDecodeTransaction, image, network, 
-  onButtonClick, toggleDarkMode, darkMode } : NavbarProps){
+  onButtonClick} : NavbarProps){
   const handleSubmit = (event: FormEvent) => {
     event.preventDefault();
     handleDecodeTransaction();
   };
+  const [darkMode, setDarkMode] = useState(true);
+  const toggleDarkMode = () => { setDarkMode(!darkMode);};
+
+  useEffect(() => {
+    document.body.className = darkMode ? 'dark-mode' : 'light-mode';
+  }, [darkMode]);
 
   return (
     <nav>

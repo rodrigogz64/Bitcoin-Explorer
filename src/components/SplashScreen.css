@@ -1,4 +1,5 @@
 .splash-screen {
+  background-color: #171a1f;
   position: absolute;
   top: 0;
   left: 0;
@@ -10,7 +11,7 @@
   opacity: 1;
 }
 
-.icon {
+.splash-icon {
   stroke-dasharray: 2110;
   stroke-dashoffset: 2110;
   stroke-width: 2;
