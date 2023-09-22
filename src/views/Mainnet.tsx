@@ -1,9 +1,9 @@
 import React, { useEffect, useState } from 'react';
-import Menu from '../components/Menu';
-import Navbar from '../components/Navbar';
+import Menu from '../components/Menu/Menu';
+import Navbar from '../components/Navbar/Navbar';
 import { decodeTransaction, identifyData, DecodedTransaction, fetchBlockHash } from '../assets/Decoder';
 import orange from '../assets/bitcoin-orange.svg';
-import SplashScreen from '../components/SplashScreen';
+import SplashScreen from '../components/Splash/SplashScreen';
 //import ErrorModal from "../components/ErrorModal";
 import TxDetails from '../components/Details/TxDetails';
 import BlockHashDetails from '../components/Details/BlockHashDetails';

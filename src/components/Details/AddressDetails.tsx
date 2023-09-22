@@ -68,7 +68,7 @@ export default function AddressDetails({ decodedTransaction }: Props){
       <div className="table">
         <div>
           <div>Balance</div>
-          <div> {balance} BTC</div>
+          <div> {balance.toLocaleString()} BTC</div>
         </div>
         <div>
           <div>Total Transactions</div>
@@ -76,12 +76,12 @@ export default function AddressDetails({ decodedTransaction }: Props){
         </div>
         <div>
           <div>Total Received</div>
-          <div>{Received} BTC
+          <div>{Received.toLocaleString()} BTC
           </div>
         </div> 
         <div>
           <div>Total Sent</div>
-          <div>{Sent} BTC
+          <div>{Sent.toLocaleString()} BTC
           </div>
         </div>
       </div>

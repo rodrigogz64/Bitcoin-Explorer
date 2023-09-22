@@ -1,10 +1,10 @@
 import axios from "axios";
 
 function isBlockHash(input: string): boolean {return /^0{8}[0-9a-fA-F]{56}$/.test(input);}
-/* function isBlockHashSignet(input: string): boolean {return /^[0-9a-fA-F]}{64}$/.test(input);} */
+function isBlockHashSignet(input: string): boolean {return /^0{4}[0-9a-fA-F]{60}$/.test(input);}
 
 function isTxid(input: string): boolean { return /^[0-9a-fA-F]{64}$/.test(input);}
-/* function isTxidSignet(input: string): boolean {return /^[0-9a-fA-F]{64}$/.test(input);} */
+function isBlock(input: string): boolean { return /^[0-9]+$/.test(input); }
 
 function isValidBitcoinAddress(input: string): boolean {
   return (
@@ -13,8 +13,6 @@ function isValidBitcoinAddress(input: string): boolean {
     /^(bc1)[a-zA-HJ-NP-Z0-9]{25,62}$/.test(input)
   );
 }
-
-function isBlock(input: string): boolean { return /^[0-9]+$/.test(input); }
 
 function isValidTestetAddress(input: string): boolean{
   return  (
@@ -27,10 +25,6 @@ function isValidTestetAddress(input: string): boolean{
     
   );
 }
-
-/* function isValidSignetAddress(input: string): boolean {
-  return (/^(tb1)[0-9A-HJ-NP-Z]{42,62}$/.test(input))
-} */
 
 function mainnet(txId: string, network:string){
   if(network === 'api'){
@@ -51,23 +45,23 @@ function testnet(txId: string, network:string):string{
   return "";
 }
 
-/* function signet(txId: string, network:string):string{
+function signet(txId: string, network:string):string{
   if(network === 'signet/api'){
-    if (isTxidSignet(txId)) return "tx";
-    if (isBlockHashSignet(txId)) return "block";
+    if (isBlockHashSignet(txId) == false && isTxid(txId) == true) return "tx";
+    if (isBlockHashSignet(txId) == true && isTxid(txId) == true) return "block";
     if (isValidTestetAddress(txId)) return "address";
     if (isBlock(txId)) return "block-height";
   } return "";
-} */
+}
 
-function liquid(txId: string, network:string):string{
+/* function liquid(txId: string, network:string):string{
   if(network === 'liquid/api'){
     if(txId.length === 64) return "tx";
     //if(txId.length === 65) return "block"; 
     if(txId.length >= 32 || txId.length <= 64) return "address";
     //if (isBlock(txId)) return "blocks";
   } return "";
-}
+} */
 
 interface ChainStats {
   funded_txo_count: number;
@@ -107,7 +101,7 @@ export const identifyData = (txId: string, network: string): string => {
   return (
     mainnet(txId, network) ||
     testnet(txId, network) ||
-    liquid(txId, network)
+    signet(txId, network)
   );
 };
 

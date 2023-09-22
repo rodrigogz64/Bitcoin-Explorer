@@ -1,6 +1,6 @@
 import { useState } from 'react';
-import Menu from '../components/Menu';
-import Navbar from '../components/Navbar';
+import Menu from '../components/Menu/Menu';
+import Navbar from '../components/Navbar/Navbar';
 import { decodeTransaction, identifyData, DecodedTransaction, fetchBlockHash} from '../assets/Decoder';
 import blue from '../assets/bitcoin-blue.svg';
 import TxDetails from '../components/Details/TxDetails';
@@ -65,10 +65,6 @@ export default function Signet() {
         network="Signet"
       />
       <Menu />
-      <div style={{ display: "flex", alignItems: "center", justifyContent: "center", 
-        color: "white", height: "100vh", fontSize: "3rem"}}>
-        Coming Soon!
-      </div>
       <div className="content">{renderComponent()}</div>
     </div>
   );
