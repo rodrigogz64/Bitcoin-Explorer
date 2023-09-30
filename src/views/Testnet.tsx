@@ -48,7 +48,7 @@ export default function Mainnet() {
 
   const renderComponent = () => {
     if (!decodedTransaction) return null;
-    if (componentSelected === "tx") return (<TxDetails decodedTransaction={decodedTransaction} network="testnet/api" />);
+    if (componentSelected === "tx") return <TxDetails decodedTransaction={decodedTransaction} network="testnet/api" />;
     if (componentSelected === 'block' || componentSelected === 'block-height') return <BlockHashDetails decodedTransaction={decodedTransaction}  network="testnet/api"/>;
     if (componentSelected === "address") return <AddressDetails decodedTransaction={decodedTransaction} />;
   };

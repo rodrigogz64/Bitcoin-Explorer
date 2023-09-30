@@ -57,12 +57,10 @@ export default function Mainnet() {
     if (componentSelected === 'address') return <AddressDetails decodedTransaction={decodedTransaction} />;
   };
 
-/*   const handleCloseErrorModal = () => { setError(null); }; */
+  /*const handleCloseErrorModal = () => { setError(null); }; */
 
   useEffect(() => {
-    const timer = setTimeout(() => {
-      setShowContent(true);
-    }, 4500);
+    const timer = setTimeout(() => { setShowContent(true) }, 4500);
     return () => clearTimeout(timer);
   }, []);
   

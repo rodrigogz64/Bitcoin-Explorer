@@ -18,10 +18,12 @@ export default function Navbar({ txId, handleInputChange, handleDecodeTransactio
     event.preventDefault();
     handleDecodeTransaction();
   };
-  const [darkMode, setDarkMode] = useState(true);
+  const initialDarkMode = localStorage.getItem('darkMode') === 'true' ? true : false;
+  const [darkMode, setDarkMode] = useState(initialDarkMode);
   const toggleDarkMode = () => { setDarkMode(!darkMode);};
 
   useEffect(() => {
+    localStorage.setItem('darkMode', darkMode.toString());
     document.body.className = darkMode ? 'dark-mode' : 'light-mode';
   }, [darkMode]);
 

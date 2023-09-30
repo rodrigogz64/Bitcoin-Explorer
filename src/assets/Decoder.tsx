@@ -54,15 +54,6 @@ function signet(txId: string, network:string):string{
   } return "";
 }
 
-/* function liquid(txId: string, network:string):string{
-  if(network === 'liquid/api'){
-    if(txId.length === 64) return "tx";
-    //if(txId.length === 65) return "block"; 
-    if(txId.length >= 32 || txId.length <= 64) return "address";
-    //if (isBlock(txId)) return "blocks";
-  } return "";
-} */
-
 interface ChainStats {
   funded_txo_count: number;
   funded_txo_sum: number;

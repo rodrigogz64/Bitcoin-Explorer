@@ -21,6 +21,8 @@ body{
   border-top: 1px solid black;
 }
 
+.light-mode .table2 button {color: black;}
+
 /* Dark Mode*/
 .dark-mode{ 
   background-color: #171a1f; 

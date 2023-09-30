@@ -1,6 +1,6 @@
 import "./SplashScreen.css";
 
-const SplashScreen = () => {
+export default function SplashScreen(){
   return (
     <div className="splash-screen ">
       <svg version="1.1" xmlns="http://www.w3.org/2000/svg" xmlnsXlink="http://www.w3.org/1999/xlink" x={0} y={0} width={200} height={200} viewBox="100 100 400 400" xmlSpace="preserve">
@@ -20,4 +20,4 @@ const SplashScreen = () => {
   );
 };
 
-export default SplashScreen;
+

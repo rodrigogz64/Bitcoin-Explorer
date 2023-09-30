@@ -1,7 +1,6 @@
-import { useState } from "react";
 import "./Details.css";
 import img from '../../assets/3d-cube.gif';
-import clipboard from "../../assets/clipboard.png";
+import Clipboard from "../Clipboard/Clipboard";
 
 interface Props {
   decodedTransaction: {
@@ -15,21 +14,7 @@ interface Props {
   network: string;
 }
 
-export default function BlockHashDetails ({ decodedTransaction, network}: Props ) {
-  const [copied, setCopied] = useState(false);
-
-  const copyTextToClipboard = (text: string) => {
-    navigator.clipboard
-      .writeText(text)
-      .then(() => {
-        setCopied(true);
-        setTimeout(() => { setCopied(false); }, 2000);
-      })
-      .catch((err) => {
-        console.error(err);
-      });
-  };
-  
+export default function BlockHashDetails ({ decodedTransaction, network }: Props ) {
   return (
     <div className="container">
       <div className="title">
@@ -38,13 +23,8 @@ export default function BlockHashDetails ({ decodedTransaction, network}: Props 
         `${'Genesis '}` + decodedTransaction.height : `${'Block '}` + decodedTransaction.height}</h2>
       </div>
       <div className="subtitle">
-        <h4>{decodedTransaction.id}</h4>
-        <div className={`button-container ${copied ? "show-tooltip" : ""}`}>
-          <button onClick={() => copyTextToClipboard(decodedTransaction.id)}>
-            <img className="img-clip" src={clipboard} alt="" />
-          </button>
-          {copied && <span className="copy-label">Copied!</span>}
-        </div>
+          <h4>{decodedTransaction.id}</h4>
+          <Clipboard input={decodedTransaction.id}/>
       </div>
 
       <div className="table">

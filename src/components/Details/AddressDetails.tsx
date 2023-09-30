@@ -1,7 +1,6 @@
-import { useState } from 'react';
 import './Details.css';
 import img from '../../assets/icons8-wallet.gif';
-import clipboard from '../../assets/clipboard.png';
+import Clipboard from '../../components/Clipboard/Clipboard';
 
 interface Props{
   decodedTransaction: {
@@ -24,15 +23,6 @@ interface Props{
 }
 
 export default function AddressDetails({ decodedTransaction }: Props){
-  const [copied, setCopied] = useState(false);
-  const copyTextToClipboard = (text: string) => {
-    navigator.clipboard.writeText(text)
-      .then(() => {
-        setCopied(true);
-        setTimeout(() => {setCopied(false); }, 2000);
-      })
-      .catch(err => { console.error(err); });
-  };
 
   const balance = decodedTransaction.chain_stats && decodedTransaction.mempool_stats ? 
   (((decodedTransaction.chain_stats.funded_txo_sum + decodedTransaction.mempool_stats.funded_txo_sum)
@@ -58,12 +48,7 @@ export default function AddressDetails({ decodedTransaction }: Props){
       </div>
       <div className="subtitle">
         <h4>{decodedTransaction.address}</h4>
-        <div className={`button-container ${copied ? "show-tooltip" : ""}`}>
-          <button onClick={() => copyTextToClipboard(decodedTransaction.address)}>
-            <img className="img-clip" src={clipboard} alt="" />
-          </button>
-          {copied && <span className="copy-label">Copied!</span>}
-        </div>
+        <Clipboard input={decodedTransaction.address}/>
       </div>
       <div className="table">
         <div>

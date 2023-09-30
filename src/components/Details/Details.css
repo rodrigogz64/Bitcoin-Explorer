@@ -63,22 +63,6 @@ h4 {
   margin: 10px;
 }
 
-.copy-label {
-  position: absolute;
-  background-color: rgba(0, 0, 0, 0.8);
-  color: white;
-  padding: 5px 10px;
-  border-radius: 5px;
-  font-size: 12px;
-  opacity: 0;
-  transition: opacity 0.3s ease-in-out;
-  pointer-events: none;
-}
-
-.show-tooltip .copy-label {
-  opacity: 1;
-}
-
 .table > div {
   display: flex;
   justify-content: space-between;
@@ -162,6 +146,33 @@ h4 {
   font-size: 24px;
   margin: 0 10px;
 }
+
+.showAllInputs{
+  background-color: #007bff;
+  color: #fff;
+  border: none;
+  padding: 8px 16px;
+  cursor: pointer;
+  margin-bottom: 10px;
+  border-radius: 30px;
+}
+
+.showAllOutputs{
+  background-color: #007bff;
+  color: #fff;
+  border: none;
+  padding: 8px 16px;
+  cursor: pointer;
+  margin-bottom: 10px;
+  border-radius: 30px;
+}
+
+.showAllInputs:hover,
+.showAllOutputs:hover{
+  background-color: #0056b3;
+}
+
+
 @media (min-width:1200px){
   .table,
   .table2 {
