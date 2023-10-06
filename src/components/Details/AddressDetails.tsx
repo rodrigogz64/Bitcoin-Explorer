@@ -53,21 +53,19 @@ export default function AddressDetails({ decodedTransaction }: Props){
       <div className="table">
         <div>
           <div>Balance</div>
-          <div> {balance.toLocaleString()} BTC</div>
+          <div>{balance.toLocaleString(undefined, { minimumFractionDigits: 8, maximumFractionDigits: 8 })} BTC</div>
         </div>
         <div>
           <div>Total Transactions</div>
-          <div>{Transactions}</div>
+          <div>{Transactions.toLocaleString()}</div>
         </div>
         <div>
           <div>Total Received</div>
-          <div>{Received.toLocaleString()} BTC
-          </div>
-        </div> 
+          <div>{Received.toLocaleString(undefined, { minimumFractionDigits: 8, maximumFractionDigits: 8 })} BTC</div>
+        </div>
         <div>
           <div>Total Sent</div>
-          <div>{Sent.toLocaleString()} BTC
-          </div>
+          <div>{Sent.toLocaleString(undefined, { minimumFractionDigits: 8, maximumFractionDigits: 8 })} BTC</div>
         </div>
       </div>
     </div>

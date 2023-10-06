@@ -4,7 +4,7 @@ import Navbar from '../components/Navbar/Navbar';
 import { decodeTransaction, identifyData, DecodedTransaction, fetchBlockHash} from '../assets/Decoder';
 import blue from '../assets/bitcoin-blue.svg';
 import TxDetails from '../components/Details/TxDetails';
-import BlockHashDetails from '../components/Details/BlockHashDetails';
+import BlockHashDetails from '../components/Details/BlockDetails';
 import AddressDetails from '../components/Details/AddressDetails';
 
 interface Props {

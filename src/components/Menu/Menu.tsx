@@ -14,7 +14,7 @@ export default function Menu() {
       <ul className="floating-nav">
         <li>
           <div className="custom-tooltip">
-            <a href="/"> <img src={orange} alt="" /> <span className="tooltip-text">Mainnet</span></a>
+            <a href="/Mainnet"> <img src={orange} alt="" /> <span className="tooltip-text">Mainnet</span></a>
           </div>
         </li>
         <li>

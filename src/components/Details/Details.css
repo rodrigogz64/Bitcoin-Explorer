@@ -20,6 +20,12 @@
   padding: 10px;
 }
 
+.block-svg{ 
+  width: 60px;
+  margin-right: 10px;
+  animation: scaleAnimation 5s infinite;
+}
+
 .subtitle{
   order: 2;
   display: flex;
@@ -172,6 +178,10 @@ h4 {
   background-color: #0056b3;
 }
 
+@keyframes scaleAnimation {
+  0% { transform: rotate(0deg) }
+  100% { transform: rotate(360deg) }
+}
 
 @media (min-width:1200px){
   .table,

@@ -1,13 +1,14 @@
-import React, { useEffect, useState } from 'react';
+import { useState } from 'react';
 import Menu from '../components/Menu/Menu';
 import Navbar from '../components/Navbar/Navbar';
 import { decodeTransaction, identifyData, DecodedTransaction, fetchBlockHash } from '../assets/Decoder';
 import orange from '../assets/bitcoin-orange.svg';
-import SplashScreen from '../components/Splash/SplashScreen';
 //import ErrorModal from "../components/ErrorModal";
 import TxDetails from '../components/Details/TxDetails';
-import BlockHashDetails from '../components/Details/BlockHashDetails';
+import BlockHashDetails from '../components/Details/BlockDetails';
 import AddressDetails from '../components/Details/AddressDetails';
+import Home from '../components/Home/Home';
+
 
 interface Props {
   decodedTransaction: DecodedTransaction;
@@ -19,8 +20,15 @@ export default function Mainnet() {
   const [txId, setTxId] = useState<string>('');
   const [decodedTransaction, setDecodedTransaction] = useState<Props['decodedTransaction'] | null>();
   const [componentSelected, setComponentSelected] = useState<string | null>(null);
-  const [showContent, setShowContent] = useState(false);
-/*   const [error, setError] = useState<string | null>(null); */
+
+  
+  const handleRectangleClick = async (text: string) => {
+    setTxId(text);
+    decodeTransaction("api", txId, setDecodedTransaction as React.Dispatch<React.SetStateAction<DecodedTransaction | null>>);
+    handleButtonClick();
+  };
+
+  /*const [error, setError] = useState<string | null>(null);*/
 
 
   const handleInputChange = (event: React.ChangeEvent<HTMLInputElement>) => {
@@ -32,7 +40,7 @@ export default function Mainnet() {
       alert("Please enter a valid Input");
       return;
     }
-    decodeTransaction("api", txId, setDecodedTransaction as React.Dispatch<React.SetStateAction<DecodedTransaction | null>>);
+    decodeTransaction("api", txId, setDecodedTransaction as React.Dispatch<React.SetStateAction<DecodedTransaction | null> >);
     setTxId("");
   };
 
@@ -45,7 +53,7 @@ export default function Mainnet() {
         try {
           const blockHash = await fetchBlockHash(Number(txId), 'api');
           decodeTransaction("api", blockHash, setDecodedTransaction as React.Dispatch<React.SetStateAction<DecodedTransaction | null>>);
-        } catch (error) { error}
+        } catch (error) { error }
       }
     } else { setComponentSelected(null); }
   };
@@ -58,15 +66,9 @@ export default function Mainnet() {
   };
 
   /*const handleCloseErrorModal = () => { setError(null); }; */
-
-  useEffect(() => {
-    const timer = setTimeout(() => { setShowContent(true) }, 4500);
-    return () => clearTimeout(timer);
-  }, []);
   
   return (
     <div className="app-container">
-      {showContent ? (
         <>
           <Navbar
             txId={txId}
@@ -77,11 +79,12 @@ export default function Mainnet() {
             network="Mainnet"
           />
           <Menu />
+          {componentSelected === null ? (
+          <Home onRectangleClick={handleRectangleClick} />
+        ) : (
           <div className="content">{renderComponent()}</div>
-        </>
-      ) : (
-        <SplashScreen />
         )}
+        </>
     </div>
   );
 }

@@ -86,7 +86,7 @@ export default function TxDetails({ decodedTransaction, network }: Props) {
           <div>Transaction fees</div>
           <div>
             {decodedTransaction.fee !== undefined ? 
-            `${decodedTransaction.fee.toLocaleString()} Sats (${(decodedTransaction.fee / (decodedTransaction.weight / 4)).toFixed(2)} sat/vB)`
+            `${decodedTransaction.fee.toLocaleString()} Sats (${(decodedTransaction.fee / (decodedTransaction.weight / 4)).toLocaleString()} sat/vB)`
             : 'N/A'}
           </div>
         </div>
