@@ -1,4 +1,4 @@
-.container-data {
+.container-home-data {
   display: grid;
   grid-template-columns: repeat(2, 1fr);
   grid-gap: 20px;
@@ -52,8 +52,20 @@
     margin: 10px; /* Reduce el margen */
   }
 
+  .container-home-data {
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    grid-gap: 20px;
+    margin: 20px;
+  }
+
   .rectangle {
-    height: auto; /* Ajusta la altura automáticamente */
-    transition: none; /* Elimina la transición en pantallas pequeñas */
+    height: 50px;
+    width: 110px;
+    transition: none;
+  }
+
+  svg{
+    width: 60px;
   }
 }
