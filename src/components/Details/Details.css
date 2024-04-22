@@ -1,0 +1,282 @@
+@import url('https://fonts.googleapis.com/css2?family=Source+Sans+3&display=swap');
+
+.container {
+  color: #fff;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  margin-top: 10px;
+  margin: auo;
+  padding: 20px;
+}
+
+.title {
+  order: 1;
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  justify-content: flex-start;
+  text-align: left;
+  padding: 10px;
+}
+
+.block-svg{ 
+  width: 60px;
+  margin-right: 10px;
+  animation: scaleAnimation 5s infinite;
+}
+
+.subtitle{
+  order: 2;
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  text-align: center;
+  margin: 0 40px;
+}
+
+.subtitle button{
+  margin-left: 10px;
+  background-color: transparent;
+  border: none;
+  padding: 0;
+  cursor: pointer;
+}
+
+.img-clip {
+  width: 20px;
+  margin-right: 10px;
+}
+
+.title h2 {
+  font-size: 20px;
+}
+
+h4 {
+  margin: 0;
+  font-size: 14px;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+.table {
+  order: 3;
+  background-color: rgba(85, 77, 116, 0.3);
+  width: 9  0%;
+  padding: 0 10px;
+  border-radius: 10px;
+  margin: 10px;
+}
+
+.table > div {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 15px 0;
+}
+
+.table > div:not(:first-child) {
+  border-top: 1px solid #ccc;
+}
+
+.table > div:first-child {
+  border-top: none;
+  display: flex;
+  justify-content: space-between;
+}
+
+.table > div > div:first-child {
+  flex: 1;
+  text-align: left;
+}
+
+.table > div > div:last-child {
+  flex: 1;
+  text-align: right;
+}
+
+.table2 {
+  order: 3;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 0 10px;
+  background-color: rgba(85, 77, 116, 0.3);
+  border-radius: 8px;
+  margin: 10px;
+  flex: 1;
+  font-size: 12px;
+  width: 90%;
+}
+
+.Inputs, .Outputs {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+.Input, .Output{
+  margin: 10px 0;
+  border: none;
+  border-radius: 10px;
+  box-shadow: 0px 4px 8px rgba(0, 0, 0, 0.1);
+  padding: 10px;
+  word-wrap: break-word; 
+}
+
+.Input-container, .Output-container {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.Input-detail, .Output-detail {
+  display: flex;
+  flex-direction: column;
+  width: 280px;
+}
+
+.Input-detail span, .Output-detail span {
+  display: inline-block;
+  margin: 2px 0;
+  white-space: normal;
+  max-width: 100%;
+}
+
+.amount {
+  text-align: right;
+}
+
+.span {
+  font-size: 24px;
+  margin: 0 10px;
+}
+
+.showAllInputs{
+  background-color: #007bff;
+  color: #fff;
+  border: none;
+  padding: 8px 16px;
+  cursor: pointer;
+  margin-bottom: 10px;
+  border-radius: 30px;
+}
+
+.showAllOutputs{
+  background-color: #007bff;
+  color: #fff;
+  border: none;
+  padding: 8px 16px;
+  cursor: pointer;
+  margin-bottom: 10px;
+  border-radius: 30px;
+}
+
+.showAllInputs:hover,
+.showAllOutputs:hover{
+  background-color: #0056b3;
+}
+
+@keyframes scaleAnimation {
+  0% { transform: rotate(0deg) }
+  100% { transform: rotate(360deg) }
+}
+
+@media (min-width:1200px){
+  .table,
+  .table2 {
+    width: 50%;
+    margin: 10px;
+    padding: 0 5px;
+  }
+
+}
+@media (max-width: 790px) {
+  .container {
+    margin-top: 10px;
+  }
+
+  .title {
+    flex-direction: row;
+    align-items: center;
+    text-align: center;
+  }
+
+  .title img {
+    width: 30px;
+    margin-right: 5px;
+    margin-bottom: 10px;
+  }
+
+  .title h2 {
+    margin: 0;
+    font-size: 14px;
+    white-space: nowrap;
+  }
+
+  h4 {
+    margin: 0;
+    font-size: 14px;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    max-width: 70%;
+    margin-left: auto;
+  }
+
+  .subtitle {
+    flex-direction: row;
+    align-items: center;
+    text-align: center;
+    width: 100%;
+    margin-right: 80px;
+  }
+  .table,
+  .table2 {
+    width: 100%;
+    margin: 10px;
+    padding: 0 5px;
+  }
+
+  .table2 {
+    flex-direction: column;
+    align-items: center;
+  }
+
+  .Inputs,
+  .Outputs {
+    text-align: center;
+    word-wrap: break-word; 
+
+  }
+
+  .Inputs > div:first-child,
+  .Outputs > div:first-child {
+    margin-right: 0;
+  }
+
+  .table > div {
+    padding: 10px 0;
+  }
+
+  .table > div:last-child {
+    border-bottom: none;
+  }
+
+  .table > div > div:first-child,
+  .table > div > div:last-child {
+    flex: 1;
+    text-align: center;
+  }
+
+  .span {
+    font-size: 20px;
+    margin: 0 5px;
+  }
+
+  .Inputs > div,
+  .Outputs > div {
+    padding: 5px 0;
+  }
+}
