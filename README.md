@@ -40,9 +40,3 @@ This command will compile the TypeScript code and launch a development server. Y
 - TypeScript
 - Vite
 - Yarn
-
-## License
-
-This project is licensed under the MIT License.
-
-Feel free to contribute and improve this project. If you have any questions or suggestions, don't hesitate to open an issue.
